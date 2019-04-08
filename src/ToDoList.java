@@ -3,10 +3,19 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.ListModel;
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.ActionEvent;
 
 public class ToDoList {
 
@@ -41,7 +50,8 @@ public class ToDoList {
 	@SuppressWarnings("unchecked")
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 545, 404);
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 545, 422);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -60,61 +70,69 @@ public class ToDoList {
 		String[][] items = lc.getItems();
 		
 		// define lists
-		JList list = new JList();
+		DefaultListModel listModel = new DefaultListModel();
+		JList list = new JList(listModel);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.setModel(new AbstractListModel() {
-			String[] values = items[0];
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+		for (String current : lc.getItems()[0]) {
+			listModel.addElement(current);
+		}
 		list.setBounds(10, 36, 218, 305);
 		frame.getContentPane().add(list);
 		
-		JList list_1 = new JList();
+		DefaultListModel listModel1 = new DefaultListModel();
+		JList list_1 = new JList(listModel1);
 		list_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list_1.setModel(new AbstractListModel() {
-			String[] values = items[1];
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+		for (String current : lc.getItems()[1]) {
+			listModel1.addElement(current);
+		}
 		list_1.setBounds(238, 36, 139, 305);
 		frame.getContentPane().add(list_1);
 		
-		JList list_2 = new JList();
+		DefaultListModel listModel2 = new DefaultListModel();
+		JList list_2 = new JList(listModel2);
 		list_2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list_2.setModel(new AbstractListModel() {
-			String[] values = items[2];
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+		for (String current : lc.getItems()[2]) {
+			listModel2.addElement(current);
+		}
 		list_2.setBounds(387, 36, 49, 305);
 		frame.getContentPane().add(list_2);
 		
-		JList list_3 = new JList();
+		DefaultListModel listModel3 = new DefaultListModel();
+		JList list_3 = new JList(listModel3);
 		list_3.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list_3.setModel(new AbstractListModel() {
-			String[] values = items[3];
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+		for (String current : lc.getItems()[3]) {
+			listModel3.addElement(current);
+		}
 		list_3.setBounds(446, 36, 61, 305);
 		frame.getContentPane().add(list_3);
+		
+		// buttons
+		
+		JButton btnNewButton = new JButton("Add Item");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					AddItemDialogBox dialog = new AddItemDialogBox(lc);
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+					dialog.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent evt) {
+							String[][] items = lc.getItems();
+							int n = lc.getSize();
+							listModel.addElement(items[0][n-1]);
+							listModel1.addElement(items[1][n-1]);
+							listModel2.addElement(items[2][n-1]);
+							listModel3.addElement(items[3][n-1]);
+						}
+					});
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		btnNewButton.setBounds(10, 352, 218, 23);
+		frame.getContentPane().add(btnNewButton);
 		
 		
 		// define list event listeners
@@ -157,9 +175,3 @@ public class ToDoList {
 		
 	}
 }
-
-/*abstract class SharedListSelectionHandler implements ListSelectionListener {
-	public void valueChanged(ListSelectionEvent e) {
-		 
-	}
-}*/

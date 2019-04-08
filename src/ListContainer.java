@@ -34,4 +34,8 @@ public class ListContainer {
 		}
 		return returnList;
 	}
+	
+	public int getSize() {
+		return this.size;
+	}
 }
