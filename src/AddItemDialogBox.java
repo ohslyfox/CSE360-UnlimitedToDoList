@@ -6,6 +6,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
@@ -70,9 +71,16 @@ public class AddItemDialogBox extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						lc.addItem(textField.getText(), textField_1.getText(), chckbxComplete.isSelected(), Integer.parseInt(textField_2.getText()));
-						setVisible(false);
-						dispose();
+						try {
+							// try to add the item
+							lc.addItem(textField.getText(), textField_1.getText(), chckbxComplete.isSelected(), Integer.parseInt(textField_2.getText()));
+							setVisible(false);
+							dispose();
+						}
+						catch (Exception exc) {
+							// error message
+							JOptionPane.showMessageDialog(contentPanel, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -81,6 +89,12 @@ public class AddItemDialogBox extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						setVisible(false);
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

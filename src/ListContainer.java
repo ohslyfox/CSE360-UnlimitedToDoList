@@ -17,10 +17,31 @@ public class ListContainer {
 		}
 		else if (priority < size) {
 			//dateList.
+			size++;
+			listItems.add(new ListItem(description, date, status, priority));
+			
+			for (int i = size-1; i >= priority; i--) {
+				ListItem temp = listItems.get(i-1);
+				temp.setPriority(temp.getPriority()+1);
+				listItems.set(i-1, listItems.get(i));
+				listItems.set(i, temp);
+			}
 		}
 		else {
-			
+			throw new IllegalArgumentException("Priority must be in sequence.");
 		}
+	}
+	
+	public void removeItem(int index) {
+		if (index >= size) {
+			throw new IllegalArgumentException("Invalid index.");
+		}
+		listItems.remove(index);
+		size--;
+		for (int i = size-1; i >= index; i--) {
+			listItems.get(i).setPriority(listItems.get(i).getPriority()-1);
+		}
+		
 	}
 	
 	public String[][] getItems() {
