@@ -70,7 +70,7 @@ public class AddItemDialogBox extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						lc.addItem(textField.getText(), textField_1.getText(), chckbxComplete.isEnabled(), Integer.parseInt(textField_2.getText()));
+						lc.addItem(textField.getText(), textField_1.getText(), chckbxComplete.isSelected(), Integer.parseInt(textField_2.getText()));
 						setVisible(false);
 						dispose();
 					}
