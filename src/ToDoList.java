@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListCellRenderer;
@@ -266,10 +267,15 @@ public class ToDoList {
 		// button listeners
 		btnRemoveItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int selected = list.getSelectedIndex();
-				lc.removeItem(selected);
-				drawList(lc, listModel, listModel1, listModel2, listModel3);
-				list.setSelectedIndex(selected);
+				try {
+					int selected = list.getSelectedIndex();
+					lc.removeItem(selected);
+					drawList(lc, listModel, listModel1, listModel2, listModel3);
+					list.setSelectedIndex(selected);
+				}
+				catch (Exception exc) {
+					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		

@@ -33,7 +33,7 @@ public class ListContainer {
 	}
 	
 	public void removeItem(int index) {
-		if (index >= size) {
+		if (index >= size || index < 0) {
 			throw new IllegalArgumentException("Invalid index.");
 		}
 		listItems.remove(index);
