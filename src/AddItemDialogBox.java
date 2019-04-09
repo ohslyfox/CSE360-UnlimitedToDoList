@@ -1,6 +1,6 @@
 /**
- * @Author Patrick Finger
- * @Author Danlin Li
+ * @author Patrick Finger
+ * @author Danlin Li
  * @author Robert Oller
  * @date 04/22/2019
  * @brief Defines the Add Item Dialog Box. Used for adding

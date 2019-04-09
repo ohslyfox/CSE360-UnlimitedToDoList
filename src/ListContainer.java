@@ -1,6 +1,6 @@
 /**
- * @Author Patrick Finger
- * @Author Danlin Li
+ * @author Patrick Finger
+ * @author Danlin Li
  * @author Robert Oller
  * @date 04/22/2019
  * @brief Contains an ArrayList of ListItems which can be

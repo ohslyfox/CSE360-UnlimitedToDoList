@@ -1,6 +1,6 @@
 /**
- * @Author Patrick Finger
- * @Author Danlin Li
+ * @author Patrick Finger
+ * @author Danlin Li
  * @author Robert Oller
  * @date 04/22/2019
  * @brief Defines the entry point of the program and opens
