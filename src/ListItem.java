@@ -2,10 +2,10 @@
 public class ListItem {
 	private String description;
 	private String date;
-	private boolean status;
+	private String status;
 	private int priority;
 	
-	public ListItem(String description, String date, boolean status, int priority) {
+	public ListItem(String description, String date, String status, int priority) {
 		setDescription(description);
 		setDate(date);
 		setStatus(status);
@@ -20,7 +20,7 @@ public class ListItem {
 		this.date = date;
 	}
 	
-	public void setStatus(boolean status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 	
@@ -36,7 +36,7 @@ public class ListItem {
 		return this.date;
 	}
 	
-	public boolean getStatus() {
+	public String getStatus() {
 		return this.status;
 	}
 	

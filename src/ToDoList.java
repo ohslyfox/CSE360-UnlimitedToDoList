@@ -66,14 +66,14 @@ public class ToDoList {
 		frmUnlimitedTodoList = new JFrame();
 		frmUnlimitedTodoList.setTitle("Unlimited To-Do List");
 		frmUnlimitedTodoList.setResizable(false);
-		frmUnlimitedTodoList.setBounds(100, 100, 535, 402);
+		frmUnlimitedTodoList.setBounds(100, 100, 500, 405);
 		frmUnlimitedTodoList.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmUnlimitedTodoList.getContentPane().setLayout(null);
 		
 		// list container
 		ListContainer lc = new ListContainer();
 		for (int i = 0; i < 50; i++) {
-			lc.addItem(("test" + Integer.toString(i+1)), "05/10/2019", i%2==0, i+1);
+			lc.addItem(("test" + Integer.toString(i+1)), "5/10/2019", "Not Started", i+1);
 		}
 		String[][] items = lc.getItems();
 		
@@ -118,7 +118,7 @@ public class ToDoList {
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-		scrollPane_1.setBounds(220, 11, 136, 305);
+		scrollPane_1.setBounds(220, 11, 102, 305);
 		frmUnlimitedTodoList.getContentPane().add(scrollPane_1);
 		JList list_1 = new JList(listModel1);
 		scrollPane_1.setViewportView(list_1);
@@ -130,7 +130,7 @@ public class ToDoList {
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-		scrollPane_2.setBounds(358, 11, 87, 305);
+		scrollPane_2.setBounds(324, 11, 87, 305);
 		frmUnlimitedTodoList.getContentPane().add(scrollPane_2);
 		JList list_2 = new JList(listModel2);
 		scrollPane_2.setViewportView(list_2);
@@ -141,7 +141,7 @@ public class ToDoList {
 		scrollPane_2.setColumnHeaderView(lblStatus);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(447, 11, 69, 305);
+		scrollPane_3.setBounds(413, 11, 69, 305);
 		frmUnlimitedTodoList.getContentPane().add(scrollPane_3);
 		JList list_3 = new JList(listModel3);
 		//center list text
@@ -157,7 +157,7 @@ public class ToDoList {
 		scrollPane_3.setColumnHeaderView(lblPriority);
 		
 		JButton btnRemoveItem = new JButton("Remove Item");
-		btnRemoveItem.setBounds(10, 345, 208, 23);
+		btnRemoveItem.setBounds(10, 347, 208, 23);
 		frmUnlimitedTodoList.getContentPane().add(btnRemoveItem);
 		
 		
