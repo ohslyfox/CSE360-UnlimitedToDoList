@@ -32,6 +32,7 @@ public class AddItemDialogBox extends JDialog {
 	 * Create the dialog.
 	 */
 	public AddItemDialogBox(ListContainer lc) {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setTitle("Add Item");
 		setBounds(100, 100, 300, 221);
@@ -100,6 +101,9 @@ public class AddItemDialogBox extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						try {
+							if (textField.getText().trim().isEmpty()) {
+								throw new IllegalArgumentException("Description cannot be empty.");
+							}
 							// try to add the item
 							Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(comboBox.getSelectedItem().toString());
 							Calendar cal = Calendar.getInstance();
