@@ -1,4 +1,12 @@
-
+/**
+ * @Author Patrick Finger
+ * @Author Danlin Li
+ * @author Robert Oller
+ * @date 04/22/2019
+ * @brief Defines an object to contain the four parts
+ * of a to-do list item: description, date, status,
+ * and priority. Used to store a single to-do list item.
+ */
 public class ListItem {
 	private String description;
 	private String date;
