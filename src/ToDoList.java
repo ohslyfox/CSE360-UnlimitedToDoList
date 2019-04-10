@@ -81,7 +81,7 @@ public class ToDoList {
 		// list container
 		ListContainer lc = new ListContainer();
 		for (int i = 0; i < 50; i++) {
-			lc.addItem(("test" + Integer.toString(i+1)), "5/10/2019", "Not Started", i+1);
+			lc.addItem(("test" + Integer.toString(i+1)), "5/" + i + "/2019", "Not Started", i+1);
 		}
 		String[][] items = lc.getItems();
 		
