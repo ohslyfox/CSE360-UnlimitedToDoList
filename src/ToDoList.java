@@ -358,6 +358,33 @@ public class ToDoList {
 				}
 			}
 		});
+		
+		//Save Item Button
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				try {
+					lc.saveItems();
+				}
+				catch(Exception exc) {
+					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
+		//Load Item Button
+		btnLoad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				try {
+					lc.loadItems();
+					drawList(lc, listModel, listModel1, listModel2, listModel3);
+				}
+				catch(Exception exc) {
+					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 
 		// MouseWheel Listener
 		frmUnlimitedTodoList.addMouseWheelListener(new MouseWheelListener() {
