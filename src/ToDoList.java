@@ -72,7 +72,7 @@ public class ToDoList {
 		frmUnlimitedTodoList = new JFrame();
 		frmUnlimitedTodoList.setTitle("Unlimited To-Do List");
 		frmUnlimitedTodoList.setResizable(false);
-		frmUnlimitedTodoList.setBounds(100, 100, 524, 444);
+		frmUnlimitedTodoList.setBounds(100, 100, 522, 444);
 		frmUnlimitedTodoList.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmUnlimitedTodoList.getContentPane().setLayout(null);
 		

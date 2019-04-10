@@ -34,7 +34,6 @@ public class ListContainer {
 			listItems.add(new ListItem(description, date, status, priority));
 		}
 		else if (priority < size && priority > 0) {
-			//dateList.
 			size++;
 			listItems.add(new ListItem(description, date, status, priority));
 			

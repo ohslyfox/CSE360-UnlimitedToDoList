@@ -118,7 +118,6 @@ public class AddItemDialogBox extends JDialog {
 								throw new IllegalArgumentException("Description cannot be empty.");
 							}
 							
-							
 							// try to add the item
 							// Convert the date text to number
 							Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(comboBox.getSelectedItem().toString());
