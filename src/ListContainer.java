@@ -84,6 +84,52 @@ public class ListContainer {
 	}
 	
 	/**
+	 * Saves the info of every To-Do list item in a .txt file
+	 * @throws IOException
+	 */
+	public void saveItems() throws IOException 
+	{
+		FileWriter fw = new FileWriter("To-Do List.txt");
+		PrintWriter writer = new PrintWriter(fw);
+		for(int i = 0; i < size; i++) 
+		{
+			ListItem currentItem = listItems.get(i);
+			writer.print(currentItem.getDescription() + "-");
+			writer.print(currentItem.getDate() + "-");
+			writer.print(currentItem.getStatus() + "-");
+			writer.println(Integer.toString(currentItem.getPriority()));
+		}
+		writer.flush();
+		writer.close();
+	}
+	
+	/**
+	 * Loads the info from To-Do list.txt
+	 * @throws IOException
+	 */
+	public void loadItems() throws IOException 
+	{
+		Scanner scanner = new Scanner(new File("To-Do List.txt"));
+		listItems.clear();
+		size = 0;
+		
+		while(scanner.hasNextLine())
+		{
+			String line = scanner.nextLine();
+			String[] parts = line.split("-");
+			if(parts.length == 4)
+			{
+				addItem(parts[0], parts[1], parts[2], Integer.valueOf(parts[3]));
+			}
+			else
+			{
+				throw new IllegalArgumentException("Missing Property in 'To-Do List.txt'");
+			}
+		}
+		scanner.close();
+	}
+	
+	/**
 	 * Returns the size of the list
 	 * @return size, the size of the list
 	 */
