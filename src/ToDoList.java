@@ -385,6 +385,17 @@ public class ToDoList {
 				}
 			}
 		});
+		
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+	        public void run() {
+	        	try {
+					lc.saveItems();
+				}
+				catch(Exception exc) {
+					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+	        }
+	    }));
 
 		// MouseWheel Listener
 		frmUnlimitedTodoList.addMouseWheelListener(new MouseWheelListener() {
