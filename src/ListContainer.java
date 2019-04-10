@@ -8,7 +8,6 @@
  * unlimited to-do list.
  */
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
