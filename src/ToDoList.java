@@ -162,24 +162,20 @@ public class ToDoList {
 		
 		// Individual Scroll Panes & Labels
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(4, 4, 208, 305);
 		layeredPane_1.add(scrollPane);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		JList list = new JList(listModel);
 		list.setFont(new Font("Tahoma", Font.BOLD, 12));
-		//center list text
-		DefaultListCellRenderer renderer = (DefaultListCellRenderer)list.getCellRenderer();
-		//end center list text
 		scrollPane.setViewportView(list);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		JLabel lblDescription = new JLabel("Description");
 		lblDescription.setOpaque(true);
-		lblDescription.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDescription.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDescription.setFont(new Font("Tahoma", Font.BOLD, 14));
 		scrollPane.setColumnHeaderView(lblDescription);
-		renderer.setHorizontalAlignment(SwingConstants.CENTER);
-		
+			
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(214, 4, 102, 305);
 		layeredPane_1.add(scrollPane_1);
@@ -187,7 +183,7 @@ public class ToDoList {
 		JList list_1 = new JList(listModel1);
 		list_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		//center list text
-		renderer = (DefaultListCellRenderer)list_1.getCellRenderer();
+		DefaultListCellRenderer renderer = (DefaultListCellRenderer)list_1.getCellRenderer();
 		renderer.setHorizontalAlignment(SwingConstants.CENTER);
 		//end center list text
 		scrollPane_1.setViewportView(list_1);
@@ -255,6 +251,13 @@ public class ToDoList {
 				scrollPane_1.getVerticalScrollBar().setValue(y);
 				scrollPane_2.getVerticalScrollBar().setValue(y);
 				scrollPane.getVerticalScrollBar().setValue(y);
+
+				// re adjust scroll panes to their maximum if scrollbar is at maximum
+				if (y >= scrollPane_3.getVerticalScrollBar().getMaximum() - scrollPane_3.getVerticalScrollBar().getVisibleAmount()) {
+					scrollPane_1.getVerticalScrollBar().setValue(scrollPane_1.getVerticalScrollBar().getMaximum());
+					scrollPane_2.getVerticalScrollBar().setValue(scrollPane_2.getVerticalScrollBar().getMaximum());
+					scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
+				}
 			}
 		});
 		
@@ -302,8 +305,6 @@ public class ToDoList {
 				list_1.setSelectedIndex(list.getSelectedIndex());
 				list_2.setSelectedIndex(list.getSelectedIndex());
 				list_3.setSelectedIndex(list.getSelectedIndex());
-				
-				
 			}
 		});
 		
