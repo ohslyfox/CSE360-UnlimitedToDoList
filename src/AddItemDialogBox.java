@@ -127,12 +127,12 @@ public class AddItemDialogBox extends JDialog {
 							String dateString = "" + (cal.get(Calendar.MONTH)+1) + "/" + comboBox_1.getSelectedItem().toString() + "/" + comboBox_2.getSelectedItem().toString();
 							
 							// check if entered date is before current date 
-							SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+							/*SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 							Date d1 = sdf.parse(dateString);
 							Date d2 = sdf.parse(LocalDate.now().getMonthValue() + "/" + LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getYear());
 							if (d1.before(d2)) {
 								throw new IllegalArgumentException("Date cannot be in the past.");
-							}
+							}*/
 							
 							// add the item to the list container
 							lc.addItem(textField.getText(), dateString, comboBox_3.getSelectedItem().toString(), Integer.parseInt(textField_2.getText()));
