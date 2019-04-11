@@ -35,6 +35,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JLayeredPane;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.SystemColor;
 
 public class ToDoList {
@@ -170,7 +171,6 @@ public class ToDoList {
 		//center list text
 		DefaultListCellRenderer renderer = (DefaultListCellRenderer)list.getCellRenderer();
 		//end center list text
-		list.setBackground(SystemColor.window);
 		scrollPane.setViewportView(list);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
@@ -212,7 +212,6 @@ public class ToDoList {
 		//end center list text
 		scrollPane_2.setViewportView(list_2);
 		list_2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
 		JLabel lblStatus = new JLabel("Status");
 		lblStatus.setOpaque(true);
 		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
@@ -448,6 +447,5 @@ public class ToDoList {
 		for (String current : items[3]) {
 			lm3.addElement(current);
 		}
-		
 	}
 }
