@@ -80,8 +80,12 @@ public class ToDoList {
 		// CONSTRUCT LIST CONTAINER
 		// list container
 		ListContainer lc = new ListContainer();
-		for (int i = 0; i < 50; i++) {
-			lc.addItem(("test" + Integer.toString(i+1)), "5/" + i + "/2019", "Not Started", i+1);
+		// attempt to auto-load from file
+		try {
+			lc.loadItems();
+		}
+		catch (Exception e) {
+			// do nothing
 		}
 		String[][] items = lc.getItems();
 		
@@ -389,7 +393,7 @@ public class ToDoList {
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 	        public void run() {
 	        	try {
-					lc.saveItems();
+	        		lc.saveItems();
 				}
 				catch(Exception exc) {
 					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

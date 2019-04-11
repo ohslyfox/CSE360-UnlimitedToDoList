@@ -117,7 +117,6 @@ public class ListContainer {
 		Scanner scanner = new Scanner(new File("To-Do List.txt"));
 		listItems.clear();
 		size = 0;
-		
 		while(scanner.hasNextLine())
 		{
 			String line = scanner.nextLine();
