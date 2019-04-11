@@ -35,7 +35,6 @@ import javax.swing.SwingConstants;
 import javax.swing.JLayeredPane;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.SystemColor;
 
 public class ToDoList {
