@@ -22,6 +22,8 @@ import javax.swing.JDialog;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowAdapter;
@@ -329,7 +331,7 @@ public class ToDoList {
 					list.setSelectedIndex(selected);
 				}
 				catch (Exception exc) {
-					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: an item must be selected to delete.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -380,6 +382,10 @@ public class ToDoList {
 			public void actionPerformed(ActionEvent e)
 			{
 				try {
+					lblDescription.setBackground(SystemColor.control);
+					lblDate.setBackground(SystemColor.control);
+					lblStatus.setBackground(SystemColor.control);
+					lblPriority.setBackground(SystemColor.control);
 					lc.loadItems();
 					drawList(lc, listModel, listModel1, listModel2, listModel3);
 				}
@@ -414,6 +420,90 @@ public class ToDoList {
 				}
 			}
 		});
+		
+		
+		// Label Click Listener for Sorting
+		lblPriority.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				lblDescription.setBackground(SystemColor.control);
+				lblDate.setBackground(SystemColor.control);
+				lblStatus.setBackground(SystemColor.control);
+				if (lblPriority.getBackground().getRed() == 132) {
+					lblPriority.setBackground(new Color(251,131,131));
+					lc.setSortMode(1);
+					lc.sort();
+				}
+				else {
+					lblPriority.setBackground(new Color(132,169,255));
+					lc.setSortMode(0);
+					lc.sort();
+				}
+				
+				
+				drawList(lc, listModel, listModel1, listModel2, listModel3);
+			}
+		});
+		
+		// Label Click Listener for Sorting
+		lblDescription.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				lblPriority.setBackground(SystemColor.control);
+				lblDate.setBackground(SystemColor.control);
+				lblStatus.setBackground(SystemColor.control);
+				if (lblDescription.getBackground().getRed() == 132) {
+					lblDescription.setBackground(new Color(251,131,131));
+					lc.setSortMode(3);
+					lc.sort();
+				}
+				else {
+					lblDescription.setBackground(new Color(132,169,255));
+					lc.setSortMode(2);
+					lc.sort();
+				}
+				drawList(lc, listModel, listModel1, listModel2, listModel3);
+			}
+		});
+		
+		// Label Click Listener for Sorting
+		lblDate.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				lblDescription.setBackground(SystemColor.control);
+				lblPriority.setBackground(SystemColor.control);
+				lblStatus.setBackground(SystemColor.control);
+				if (lblDate.getBackground().getRed() == 132) {
+					lblDate.setBackground(new Color(251,131,131));
+					lc.setSortMode(5);
+					lc.sort();
+				}
+				else {
+					lblDate.setBackground(new Color(132,169,255));
+					lc.setSortMode(4);
+					lc.sort();
+				}
+				drawList(lc, listModel, listModel1, listModel2, listModel3);
+			}
+		});
+		// Label Click Listener for Sorting
+		lblStatus.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				lblDescription.setBackground(SystemColor.control);
+				lblPriority.setBackground(SystemColor.control);
+				lblDate.setBackground(SystemColor.control);
+				if (lblStatus.getBackground().getRed() == 132) {
+					lblStatus.setBackground(new Color(251,131,131));
+					lc.setSortMode(7);
+					lc.sort();
+				}
+				else {
+					lblStatus.setBackground(new Color(132,169,255));
+					lc.setSortMode(6);
+					lc.sort();
+				}
+				drawList(lc, listModel, listModel1, listModel2, listModel3);
+			}
+		});	
+
+		
 		
 	}
 	

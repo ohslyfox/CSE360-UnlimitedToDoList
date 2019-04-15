@@ -1,3 +1,6 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @author Patrick Finger
  * @author Danlin Li
@@ -8,12 +11,13 @@
  * and priority. Used to store a single to-do list item.
  */
 public class ListItem {
+	public static SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 	private String description;
-	private String date;
+	private Date date;
 	private String status;
 	private int priority;
 	
-	public ListItem(String description, String date, String status, int priority) {
+	public ListItem(String description, Date date, String status, int priority) {
 		setDescription(description);
 		setDate(date);
 		setStatus(status);
@@ -24,7 +28,7 @@ public class ListItem {
 		this.description = description;
 	}
 	
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	
@@ -40,8 +44,12 @@ public class ListItem {
 		return this.description;
 	}
 	
-	public String getDate() {
+	public Date getDate() {
 		return this.date;
+	}
+	
+	public String getDateToString() {
+		return sdf.format(this.date);
 	}
 	
 	public String getStatus() {

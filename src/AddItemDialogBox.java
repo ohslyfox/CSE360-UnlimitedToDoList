@@ -125,7 +125,7 @@ public class AddItemDialogBox extends JDialog {
 							cal.setTime(date);
 							// compile the date string
 							String dateString = "" + (cal.get(Calendar.MONTH)+1) + "/" + comboBox_1.getSelectedItem().toString() + "/" + comboBox_2.getSelectedItem().toString();
-							
+							date = ListItem.sdf.parse(dateString);
 							// check if entered date is before current date 
 							/*SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 							Date d1 = sdf.parse(dateString);
@@ -135,7 +135,7 @@ public class AddItemDialogBox extends JDialog {
 							}*/
 							
 							// add the item to the list container
-							lc.addItem(textField.getText(), dateString, comboBox_3.getSelectedItem().toString(), Integer.parseInt(textField_2.getText()));
+							lc.addItem(textField.getText(), date, comboBox_3.getSelectedItem().toString(), Integer.parseInt(textField_2.getText()));
 							setVisible(false);
 							dispose();
 						}

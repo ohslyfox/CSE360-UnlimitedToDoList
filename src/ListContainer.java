@@ -8,6 +8,9 @@
  * unlimited to-do list.
  */
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,10 +20,12 @@ import java.util.Scanner;
 public class ListContainer {
 	private ArrayList<ListItem> listItems;
 	private int size;
+	private int sortMode; // 0-1 == priority sort, 2-3 == description sort, 4-5 == date sort, 6-7 == status sort
 	
 	public ListContainer() {
 		listItems = new ArrayList<ListItem>();
 		size = 0;
+		this.setSortMode(0);
 	}
 	
 	/**
@@ -33,7 +38,8 @@ public class ListContainer {
 	 * @param status, the status of the item
 	 * @param priority, the priority of the item
 	 */
-	public void addItem(String description, String date, String status, int priority) {
+	public void addItem(String description, Date date, String status, int priority) {
+		this.sortPriority(true);
 		if (priority == size+1) {
 			size++;
 			listItems.add(new ListItem(description, date, status, priority));
@@ -53,6 +59,7 @@ public class ListContainer {
 		else {
 			throw new IllegalArgumentException("Priority must be in sequence.");
 		}
+		this.sort();
 	}
 	
 	/**
@@ -61,15 +68,17 @@ public class ListContainer {
 	 * @param index, the index to remove
 	 */
 	public void removeItem(int index) {
+		int indexPriority = listItems.get(index).getPriority()-1;
 		if (index >= size || index < 0) {
 			throw new IllegalArgumentException("Invalid index.");
 		}
 		listItems.remove(index);
+		this.sortPriority(true);
 		size--;
-		for (int i = size-1; i >= index; i--) {
+		for (int i = size-1; i >= indexPriority; i--) {
 			listItems.get(i).setPriority(listItems.get(i).getPriority()-1);
 		}
-		
+		this.sort();
 	}
 	
 	/**
@@ -81,7 +90,7 @@ public class ListContainer {
 		for (int i = 0; i < size; i++) {
 			ListItem currentItem = listItems.get(i);
 			returnList[0][i] = currentItem.getDescription();
-			returnList[1][i] = currentItem.getDate();
+			returnList[1][i] = currentItem.getDateToString();
 			returnList[2][i] = currentItem.getStatus();
 			returnList[3][i] = Integer.toString(currentItem.getPriority());
 		}
@@ -96,11 +105,12 @@ public class ListContainer {
 	{
 		FileWriter fw = new FileWriter("To-Do List.txt");
 		PrintWriter writer = new PrintWriter(fw);
+		this.sortPriority(true);
 		for(int i = 0; i < size; i++) 
 		{
 			ListItem currentItem = listItems.get(i);
 			writer.print(currentItem.getDescription() + "-");
-			writer.print(currentItem.getDate() + "-");
+			writer.print(currentItem.getDateToString() + "-");
 			writer.print(currentItem.getStatus() + "-");
 			writer.println(Integer.toString(currentItem.getPriority()));
 		}
@@ -114,6 +124,7 @@ public class ListContainer {
 	 */
 	public void loadItems() throws IOException 
 	{
+		this.setSortMode(0);
 		Scanner scanner = new Scanner(new File("To-Do List.txt"));
 		listItems.clear();
 		size = 0;
@@ -123,14 +134,91 @@ public class ListContainer {
 			String[] parts = line.split("-");
 			if(parts.length == 4)
 			{
-				addItem(parts[0], parts[1], parts[2], Integer.valueOf(parts[3]));
+				try {
+					addItem(parts[0], ListItem.sdf.parse(parts[1]), parts[2], Integer.valueOf(parts[3]));
+				}
+				catch (Exception e) {
+					// do nothing
+				}
 			}
 			else
 			{
+				scanner.close();
 				throw new IllegalArgumentException("Missing Property in 'To-Do List.txt'");
 			}
 		}
 		scanner.close();
+	}
+	
+	private void sortPriority(boolean order) {
+		if (order) {
+			Collections.sort(listItems, new PriorityComparator());
+		}
+		else {
+			Collections.sort(listItems, Collections.reverseOrder(new PriorityComparator()));
+		}
+	}
+	
+	private void sortDescription(boolean order) {
+		if (order) {
+			Collections.sort(listItems, new DescriptionComparator());
+		}
+		else {
+			Collections.sort(listItems, Collections.reverseOrder(new DescriptionComparator()));
+		}
+	}
+	
+	private void sortDate(boolean order) {
+		if (order) {
+			Collections.sort(listItems, new DateComparator());
+		}
+		else {
+			Collections.sort(listItems, Collections.reverseOrder(new DateComparator()));
+		}
+	}
+	
+	private void sortStatus(boolean order) {
+		if (order) {
+			Collections.sort(listItems, new StatusComparator());
+		}
+		else {
+			Collections.sort(listItems, Collections.reverseOrder(new StatusComparator()));
+		}
+	}
+	
+	public void sort()  {
+		switch (this.sortMode) {
+			case 0:
+				this.sortPriority(true);
+				break;
+			case 1:
+				this.sortPriority(false);
+				break;
+			case 2:
+				this.sortDescription(true);
+				break;
+			case 3:
+				this.sortDescription(false);
+				break;
+			case 4:
+				this.sortDate(true);
+				break;
+			case 5:
+				this.sortDate(false);
+				break;
+			case 6:
+				this.sortStatus(true);
+				break;
+			case 7:
+				this.sortStatus(false);
+				break;
+			default:
+				break;
+		}
+	}
+	
+	public void setSortMode(int sortMode) {
+		this.sortMode = sortMode;
 	}
 	
 	/**
@@ -140,4 +228,53 @@ public class ListContainer {
 	public int getSize() {
 		return this.size;
 	}
+	
+	public int getSortMode() {
+		return this.sortMode;
+	}
+	
+	// ---------------
+	// COMPARATORS FOR SORTING
+	public class DescriptionComparator implements Comparator<ListItem> {
+		@Override
+		public int compare(ListItem l1, ListItem l2) {
+			return l1.getDescription().toLowerCase().compareTo(l2.getDescription().toLowerCase());
+		}
+		
+	}
+	
+	public class PriorityComparator implements Comparator<ListItem> {
+		@Override
+		public int compare(ListItem l1, ListItem l2) {
+			int p1 = l1.getPriority();
+			int p2 = l2.getPriority();
+			if (p1 < p2) {
+				return -1;
+			}
+			if (p1 == p2) {
+				return 0;
+			}
+			else {
+				return 1;
+			}
+		}
+		
+	}
+	
+	public class DateComparator implements Comparator<ListItem> {
+		@Override
+		public int compare(ListItem l1, ListItem l2) {
+			return l1.getDate().compareTo(l2.getDate());
+		}
+		
+	}
+	
+	public class StatusComparator implements Comparator<ListItem> {
+		@Override
+		public int compare(ListItem l1, ListItem l2) {
+			return l1.getStatus().toLowerCase().compareTo(l2.getStatus().toLowerCase());
+		}
+		
+	}
 }
+
