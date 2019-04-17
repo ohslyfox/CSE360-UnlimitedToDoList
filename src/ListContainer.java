@@ -62,6 +62,13 @@ public class ListContainer {
 		this.sort();
 	}
 	
+	public void editItem(String description, Date date, String status, int priority, int index) {
+		ListItem selectedItem = this.listItems.get(index);
+		selectedItem.setDate(date);
+		selectedItem.setDescription(description);
+		selectedItem.setStatus(status);
+		selectedItem.setPriority(priority);
+	}
 	/**
 	 * Removes the item at given index and decrements all
 	 * elements above it by one.

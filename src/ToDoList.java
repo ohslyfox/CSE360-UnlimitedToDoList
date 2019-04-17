@@ -377,6 +377,22 @@ public class ToDoList {
 			}
 		});
 		
+		//edit item
+		btnEditItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				EditItemDialogBox box = new EditItemDialogBox(lc, list.getSelectedIndex());
+				box.setVisible(true);
+				box.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosed(WindowEvent evt) {
+						
+						drawList(lc, listModel, listModel1, listModel2, listModel3);
+					}
+				});
+			}
+		});
+		
 		//Load Item Button
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
