@@ -68,7 +68,7 @@ public class ListContainer {
 		}
 		
 		ListItem selectedItem = this.listItems.get(index);
-		//this.sortPriority(true);
+		this.sortPriority(true);
 		if (priority < size+1 && priority > 0) {
 			if (priority == selectedItem.getPriority()) {
 				selectedItem.setDate(date);
