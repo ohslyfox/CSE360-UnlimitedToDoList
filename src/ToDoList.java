@@ -260,6 +260,12 @@ public class ToDoList {
 		JButton btnReport = new JButton("Report");
 		panel_3.add(btnReport);
 		
+		JButton btnReset = new JButton("Reset");
+		panel_3.add(btnReset);
+		
+		JButton btnDisplay = new JButton("Display");
+		panel_3.add(btnDisplay);
+		
 		// ----------------------
 		// DEFINE EVENT LISTENERS
 		
