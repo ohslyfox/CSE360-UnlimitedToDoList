@@ -117,7 +117,6 @@ public class AddItemDialogBox extends JDialog {
 							if (textField.getText().trim().isEmpty()) {
 								throw new IllegalArgumentException("Description cannot be empty.");
 							}
-							
 							// try to add the item
 							// Convert the date text to number
 							Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(comboBox.getSelectedItem().toString());
@@ -126,13 +125,6 @@ public class AddItemDialogBox extends JDialog {
 							// compile the date string
 							String dateString = "" + (cal.get(Calendar.MONTH)+1) + "/" + comboBox_1.getSelectedItem().toString() + "/" + comboBox_2.getSelectedItem().toString();
 							date = ListItem.sdf.parse(dateString);
-							// check if entered date is before current date 
-							/*SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-							Date d1 = sdf.parse(dateString);
-							Date d2 = sdf.parse(LocalDate.now().getMonthValue() + "/" + LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getYear());
-							if (d1.before(d2)) {
-								throw new IllegalArgumentException("Date cannot be in the past.");
-							}*/
 							
 							// add the item to the list container
 							lc.addItem(textField.getText(), date, comboBox_3.getSelectedItem().toString(), Integer.parseInt(textField_2.getText()));

@@ -63,11 +63,27 @@ public class ListContainer {
 	}
 	
 	public void editItem(String description, Date date, String status, int priority, int index) {
+		if (index < 0 || index > this.size) {
+			throw new IllegalArgumentException("Index out of bounds.");
+		}
+		
 		ListItem selectedItem = this.listItems.get(index);
-		selectedItem.setDate(date);
-		selectedItem.setDescription(description);
-		selectedItem.setStatus(status);
-		selectedItem.setPriority(priority);
+		//this.sortPriority(true);
+		if (priority < size+1 && priority > 0) {
+			if (priority == selectedItem.getPriority()) {
+				selectedItem.setDate(date);
+				selectedItem.setDescription(description);
+				selectedItem.setStatus(status);
+			}
+			else {
+				this.listItems.get(priority-1).setPriority(selectedItem.getPriority());
+				selectedItem.setPriority(priority);
+			}
+		}
+		else {
+			throw new IllegalArgumentException("Priority must be in sequence.");
+		}
+		this.sort();
 	}
 	/**
 	 * Removes the item at given index and decrements all
@@ -101,6 +117,22 @@ public class ListContainer {
 			returnList[2][i] = currentItem.getStatus();
 			returnList[3][i] = Integer.toString(currentItem.getPriority());
 		}
+		return returnList;
+	}
+	
+	/**
+	 * Fetches the data from a list item specified by index
+	 * @param index, the list item to fetch
+	 * @return returnList, the array of items
+	 */
+	public String[] getItem(int index) {
+		ListItem itemToFetch = this.listItems.get(index);
+		String[] returnList = new String[4];
+		returnList[0] = itemToFetch.getDescription();
+		returnList[1] = itemToFetch.getDateToString();
+		returnList[2] = itemToFetch.getStatus();
+		returnList[3] = Integer.toString(itemToFetch.getPriority());
+		
 		return returnList;
 	}
 	

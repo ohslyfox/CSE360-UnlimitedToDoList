@@ -34,10 +34,16 @@ import java.awt.Font;
 import javax.swing.JScrollBar;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-import javax.swing.JLayeredPane;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.SystemColor;
+import java.awt.FlowLayout;
+import javax.swing.JPanel;
+import java.awt.GridLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class ToDoList {
 
@@ -72,11 +78,10 @@ public class ToDoList {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initialize() {
 		frmUnlimitedTodoList = new JFrame();
-		frmUnlimitedTodoList.setTitle("Unlimited To-Do List");
 		frmUnlimitedTodoList.setResizable(false);
-		frmUnlimitedTodoList.setBounds(100, 100, 522, 444);
+		frmUnlimitedTodoList.setTitle("Unlimited To-Do List");
+		frmUnlimitedTodoList.setBounds(100, 100, 576, 490);
 		frmUnlimitedTodoList.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmUnlimitedTodoList.getContentPane().setLayout(null);
 		
 		// ------------------------
 		// CONSTRUCT LIST CONTAINER
@@ -91,7 +96,9 @@ public class ToDoList {
 		}
 		String[][] items = lc.getItems();
 		
-		// define list models
+		// ------------------------
+		// CONSTRUCT LIST MODELS FROM
+		// LIST CONTAINER
 		DefaultListModel listModel = new DefaultListModel();
 		for (String current : items[0]) {
 			listModel.addElement(current);
@@ -112,77 +119,50 @@ public class ToDoList {
 			listModel3.addElement(current);
 		}
 		
-		// ----------------------------
-		// CREATE & PLACE FORM ELEMENTS
+		// ------------------------
+		// CREATE AND PLACE FORM
+		// ELEMENTS
+
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{570, 0};
+		gridBagLayout.rowHeights = new int[] {312, 140, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		frmUnlimitedTodoList.getContentPane().setLayout(gridBagLayout);
 		
-		// Option Pane
-		JLayeredPane layeredPane = new JLayeredPane();
-		layeredPane.setOpaque(true);
-		layeredPane.setBackground(SystemColor.scrollbar);
-		layeredPane.setBorder(new LineBorder(new Color(100, 100, 100)));
-		layeredPane.setBounds(6, 324, 504, 86);
-		frmUnlimitedTodoList.getContentPane().add(layeredPane);
+		JPanel panel = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+		flowLayout.setVgap(6);
+		flowLayout.setHgap(6);
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.insets = new Insets(0, 0, 5, 0);
+		gbc_panel.gridx = 0;
+		gbc_panel.gridy = 0;
+		frmUnlimitedTodoList.getContentPane().add(panel, gbc_panel);
 		
-		// Option Pane Items
-		JButton btnNewButton = new JButton("Add Item");
-		btnNewButton.setBounds(10, 29, 234, 23);
-		layeredPane.add(btnNewButton);
-		
-		JButton btnRemoveItem = new JButton("Remove Item");
-		btnRemoveItem.setBounds(10, 56, 234, 23);
-		layeredPane.add(btnRemoveItem);
-		
-		JLabel lblOptions = new JLabel("Options");
-		lblOptions.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblOptions.setBounds(10, 2, 88, 23);
-		layeredPane.add(lblOptions);
-		
-		JButton btnEditItem = new JButton("Edit Item");
-		btnEditItem.setBounds(260, 29, 234, 23);
-		layeredPane.add(btnEditItem);
-		
-		JButton btnSave = new JButton("Save");
-		btnSave.setBounds(260, 56, 65, 23);
-		layeredPane.add(btnSave);
-		
-		JButton btnLoad = new JButton("Load");
-		btnLoad.setBounds(329, 56, 65, 23);
-		layeredPane.add(btnLoad);
-		
-		JButton btnReport = new JButton("Report");
-		btnReport.setBounds(398, 56, 96, 23);
-		layeredPane.add(btnReport);
-		
-		// List Pane
-		JLayeredPane layeredPane_1 = new JLayeredPane();
-		layeredPane_1.setBackground(SystemColor.scrollbar);
-		layeredPane_1.setOpaque(true);
-		layeredPane_1.setBackground(SystemColor.scrollbar);
-		layeredPane_1.setBorder(new LineBorder(SystemColor.windowBorder));
-		layeredPane_1.setBounds(6, 7, 504, 312);
-		frmUnlimitedTodoList.getContentPane().add(layeredPane_1);
-		
-		// Individual Scroll Panes & Labels
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setPreferredSize(new Dimension(200,300));
+		panel.add(scrollPane);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(4, 4, 208, 305);
-		layeredPane_1.add(scrollPane);
 		JList list = new JList(listModel);
+		list.setVisibleRowCount(0);
 		list.setFont(new Font("Tahoma", Font.BOLD, 12));
 		scrollPane.setViewportView(list);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		JLabel lblDescription = new JLabel("Description");
 		lblDescription.setOpaque(true);
-		lblDescription.setHorizontalAlignment(SwingConstants.LEFT);
+		lblDescription.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDescription.setFont(new Font("Tahoma", Font.BOLD, 14));
 		scrollPane.setColumnHeaderView(lblDescription);
-			
+		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(214, 4, 102, 305);
-		layeredPane_1.add(scrollPane_1);
+		scrollPane_1.setPreferredSize(new Dimension(120,300));
+		panel.add(scrollPane_1);
 		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		JList list_1 = new JList(listModel1);
+		list_1.setVisibleRowCount(0);
 		list_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		//center list text
 		DefaultListCellRenderer renderer = (DefaultListCellRenderer)list_1.getCellRenderer();
@@ -198,10 +178,11 @@ public class ToDoList {
 		scrollPane_1.setColumnHeaderView(lblDate);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(318, 4, 90, 305);
-		layeredPane_1.add(scrollPane_2);
+		scrollPane_2.setPreferredSize(new Dimension(120,300));
+		panel.add(scrollPane_2);
 		scrollPane_2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		JList list_2 = new JList(listModel2);
+		list_2.setVisibleRowCount(0);
 		list_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		//center list text
 		renderer = (DefaultListCellRenderer)list_2.getCellRenderer();
@@ -216,9 +197,10 @@ public class ToDoList {
 		scrollPane_2.setColumnHeaderView(lblStatus);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(410, 4, 90, 305);
-		layeredPane_1.add(scrollPane_3);
+		scrollPane_3.setPreferredSize(new Dimension(100,300));
+		panel.add(scrollPane_3);
 		JList list_3 = new JList(listModel3);
+		list_3.setVisibleRowCount(0);
 		list_3.setFont(new Font("Tahoma", Font.BOLD, 12));
 		//center list text
 		renderer = (DefaultListCellRenderer)list_3.getCellRenderer();
@@ -233,92 +215,54 @@ public class ToDoList {
 		lblPriority.setFont(new Font("Tahoma", Font.BOLD, 14));
 		scrollPane_3.setColumnHeaderView(lblPriority);
 		
+		JPanel panel_1 = new JPanel();
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.gridx = 0;
+		gbc_panel_1.gridy = 1;
+		frmUnlimitedTodoList.getContentPane().add(panel_1, gbc_panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel label = new JLabel("Options");
+		label.setBounds(14, 2, 76, 26);
+		label.setHorizontalAlignment(SwingConstants.LEFT);
+		panel_1.add(label);
+		label.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_2.setBackground(Color.LIGHT_GRAY);
+		panel_2.setBounds(6, 0, 556, 132);
+		panel_1.add(panel_2);
+		panel_2.setLayout(null);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(Color.LIGHT_GRAY);
+		panel_3.setBounds(6, 32, 543, 90);
+		panel_2.add(panel_3);
+		panel_3.setLayout(new GridLayout(0, 2, 6, 6));
+		
+		JButton btnAddItem = new JButton("Add Item");
+		panel_3.add(btnAddItem);
+		
+		JButton btnSave = new JButton("Save");
+		panel_3.add(btnSave);
+		
+		JButton btnRemoveItem = new JButton("Remove Item");
+		panel_3.add(btnRemoveItem);
+		
+		JButton btnLoad = new JButton("Load");
+		panel_3.add(btnLoad);
+		
+		JButton btnEditItem = new JButton("Edit Item");
+		panel_3.add(btnEditItem);
+		
+		JButton btnReport = new JButton("Report");
+		panel_3.add(btnReport);
+		
 		// ----------------------
 		// DEFINE EVENT LISTENERS
 		
-		// define list & scroll pane event listeners
-		list_3.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent arg0) {
-				list_1.setSelectedIndex(list_3.getSelectedIndex());
-				list_2.setSelectedIndex(list_3.getSelectedIndex());
-				list.setSelectedIndex(list_3.getSelectedIndex());
-			}
-		});
-		
-		scrollPane_3.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent arg0) {
-				int y = scrollPane_3.getVerticalScrollBar().getValue();
-				scrollPane_1.getVerticalScrollBar().setValue(y);
-				scrollPane_2.getVerticalScrollBar().setValue(y);
-				scrollPane.getVerticalScrollBar().setValue(y);
-
-				// re adjust scroll panes to their maximum if scrollbar is at maximum
-				if (y >= scrollPane_3.getVerticalScrollBar().getMaximum() - scrollPane_3.getVerticalScrollBar().getVisibleAmount()) {
-					scrollPane_1.getVerticalScrollBar().setValue(scrollPane_1.getVerticalScrollBar().getMaximum());
-					scrollPane_2.getVerticalScrollBar().setValue(scrollPane_2.getVerticalScrollBar().getMaximum());
-					scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
-				}
-			}
-		});
-		
-		list_2.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent arg0) {
-				list_1.setSelectedIndex(list_2.getSelectedIndex());
-				list.setSelectedIndex(list_2.getSelectedIndex());
-				list_3.setSelectedIndex(list_2.getSelectedIndex());
-			}
-		});
-		
-		scrollPane_2.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent arg0) {
-				int y = scrollPane_2.getVerticalScrollBar().getValue();
-				scrollPane_1.getVerticalScrollBar().setValue(y);
-				scrollPane.getVerticalScrollBar().setValue(y);
-				scrollPane_3.getVerticalScrollBar().setValue(y);
-			}
-		});
-		
-		list_1.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent arg0) {
-				list.setSelectedIndex(list_1.getSelectedIndex());
-				list_2.setSelectedIndex(list_1.getSelectedIndex());
-				list_3.setSelectedIndex(list_1.getSelectedIndex());
-			}
-		});
-		
-		scrollPane_1.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent arg0) {
-				int y = scrollPane_1.getVerticalScrollBar().getValue();
-				scrollPane.getVerticalScrollBar().setValue(y);
-				scrollPane_2.getVerticalScrollBar().setValue(y);
-				scrollPane_3.getVerticalScrollBar().setValue(y);
-			}
-		});
-		
-		list.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent arg0) {
-				list_1.setSelectedIndex(list.getSelectedIndex());
-				list_2.setSelectedIndex(list.getSelectedIndex());
-				list_3.setSelectedIndex(list.getSelectedIndex());
-			}
-		});
-		
-		scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent arg0) {
-				int y = scrollPane.getVerticalScrollBar().getValue();
-				scrollPane_1.getVerticalScrollBar().setValue(y);
-				scrollPane_2.getVerticalScrollBar().setValue(y);
-				scrollPane_3.getVerticalScrollBar().setValue(y);
-			}
-		});
 		
 		// button listeners
 		// Remove Item Button
@@ -337,7 +281,7 @@ public class ToDoList {
 		});
 		
 		// Add Item Button
-		btnNewButton.addActionListener(new ActionListener() {
+		btnAddItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					int n = lc.getSize();
@@ -381,15 +325,20 @@ public class ToDoList {
 		btnEditItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
-				EditItemDialogBox box = new EditItemDialogBox(lc, list.getSelectedIndex());
-				box.setVisible(true);
-				box.addWindowListener(new WindowAdapter() {
+				try {
+				EditItemDialogBox dialog = new EditItemDialogBox(lc, list.getSelectedIndex());
+				dialog.setVisible(true);
+				dialog.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosed(WindowEvent evt) {
 						
 						drawList(lc, listModel, listModel1, listModel2, listModel3);
 					}
 				});
+				}
+				catch (Exception exc) {
+					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: an item must be selected to edit.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		
@@ -411,6 +360,174 @@ public class ToDoList {
 			}
 		});
 		
+		
+		// list and scroll pane listeners
+		list.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				list_1.setSelectedIndex(list.getSelectedIndex());
+				list_2.setSelectedIndex(list.getSelectedIndex());
+				list_3.setSelectedIndex(list.getSelectedIndex());
+			}
+		});
+		
+		scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent arg0) {
+				int y = scrollPane.getVerticalScrollBar().getValue();
+				scrollPane_1.getVerticalScrollBar().setValue(y);
+				scrollPane_2.getVerticalScrollBar().setValue(y);
+				scrollPane_3.getVerticalScrollBar().setValue(y);
+			}
+		});
+		
+		list_1.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				list.setSelectedIndex(list_1.getSelectedIndex());
+				list_2.setSelectedIndex(list_1.getSelectedIndex());
+				list_3.setSelectedIndex(list_1.getSelectedIndex());
+			}
+		});
+		
+		scrollPane_1.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent arg0) {
+				int y = scrollPane_1.getVerticalScrollBar().getValue();
+				scrollPane.getVerticalScrollBar().setValue(y);
+				scrollPane_2.getVerticalScrollBar().setValue(y);
+				scrollPane_3.getVerticalScrollBar().setValue(y);
+			}
+		});
+		
+		list_2.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				list_1.setSelectedIndex(list_2.getSelectedIndex());
+				list.setSelectedIndex(list_2.getSelectedIndex());
+				list_3.setSelectedIndex(list_2.getSelectedIndex());
+			}
+		});
+		
+		scrollPane_2.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent arg0) {
+				int y = scrollPane_2.getVerticalScrollBar().getValue();
+				scrollPane_1.getVerticalScrollBar().setValue(y);
+				scrollPane.getVerticalScrollBar().setValue(y);
+				scrollPane_3.getVerticalScrollBar().setValue(y);
+			}
+		});
+		
+		list_3.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				list_1.setSelectedIndex(list_3.getSelectedIndex());
+				list_2.setSelectedIndex(list_3.getSelectedIndex());
+				list.setSelectedIndex(list_3.getSelectedIndex());
+			}
+		});
+		
+		scrollPane_3.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent arg0) {
+				int y = scrollPane_3.getVerticalScrollBar().getValue();
+				scrollPane_1.getVerticalScrollBar().setValue(y);
+				scrollPane_2.getVerticalScrollBar().setValue(y);
+				scrollPane.getVerticalScrollBar().setValue(y);
+
+				// re adjust scroll panes to their maximum if scrollbar is at maximum
+				if (y >= scrollPane_3.getVerticalScrollBar().getMaximum() - scrollPane_3.getVerticalScrollBar().getVisibleAmount()) {
+					scrollPane_1.getVerticalScrollBar().setValue(scrollPane_1.getVerticalScrollBar().getMaximum());
+					scrollPane_2.getVerticalScrollBar().setValue(scrollPane_2.getVerticalScrollBar().getMaximum());
+					scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
+				}
+			}
+		});
+		
+		// Description Label Click Listener for Sorting
+		lblDescription.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				lblPriority.setBackground(SystemColor.control);
+				lblDate.setBackground(SystemColor.control);
+				lblStatus.setBackground(SystemColor.control);
+				if (lblDescription.getBackground().getRed() == 132) {
+					lblDescription.setBackground(new Color(251,131,131));
+					lc.setSortMode(3);
+					lc.sort();
+				}
+				else {
+					lblDescription.setBackground(new Color(132,169,255));
+					lc.setSortMode(2);
+					lc.sort();
+				}
+				drawList(lc, listModel, listModel1, listModel2, listModel3);
+			}
+		});
+		
+		// Date Label Click Listener for Sorting
+		lblDate.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				lblDescription.setBackground(SystemColor.control);
+				lblPriority.setBackground(SystemColor.control);
+				lblStatus.setBackground(SystemColor.control);
+				if (lblDate.getBackground().getRed() == 132) {
+					lblDate.setBackground(new Color(251,131,131));
+					lc.setSortMode(5);
+					lc.sort();
+				}
+				else {
+					lblDate.setBackground(new Color(132,169,255));
+					lc.setSortMode(4);
+					lc.sort();
+				}
+				drawList(lc, listModel, listModel1, listModel2, listModel3);
+			}
+		});
+		
+		// Status Label Click Listener for Sorting
+		lblStatus.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				lblDescription.setBackground(SystemColor.control);
+				lblPriority.setBackground(SystemColor.control);
+				lblDate.setBackground(SystemColor.control);
+				if (lblStatus.getBackground().getRed() == 132) {
+					lblStatus.setBackground(new Color(251,131,131));
+					lc.setSortMode(7);
+					lc.sort();
+				}
+				else {
+					lblStatus.setBackground(new Color(132,169,255));
+					lc.setSortMode(6);
+					lc.sort();
+				}
+				drawList(lc, listModel, listModel1, listModel2, listModel3);
+			}
+		});	
+		
+		// Priority Label Click Listener for Sorting
+		lblPriority.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				lblDescription.setBackground(SystemColor.control);
+				lblDate.setBackground(SystemColor.control);
+				lblStatus.setBackground(SystemColor.control);
+				if (lblPriority.getBackground().getRed() == 132) {
+					lblPriority.setBackground(new Color(251,131,131));
+					lc.setSortMode(1);
+					lc.sort();
+				}
+				else {
+					lblPriority.setBackground(new Color(132,169,255));
+					lc.setSortMode(0);
+					lc.sort();
+				}
+				
+				
+				drawList(lc, listModel, listModel1, listModel2, listModel3);
+			}
+		});	
+		
+		// Shutdown Listener
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 	        public void run() {
 	        	try {
@@ -436,91 +553,9 @@ public class ToDoList {
 				}
 			}
 		});
-		
-		
-		// Label Click Listener for Sorting
-		lblPriority.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				lblDescription.setBackground(SystemColor.control);
-				lblDate.setBackground(SystemColor.control);
-				lblStatus.setBackground(SystemColor.control);
-				if (lblPriority.getBackground().getRed() == 132) {
-					lblPriority.setBackground(new Color(251,131,131));
-					lc.setSortMode(1);
-					lc.sort();
-				}
-				else {
-					lblPriority.setBackground(new Color(132,169,255));
-					lc.setSortMode(0);
-					lc.sort();
-				}
-				
-				
-				drawList(lc, listModel, listModel1, listModel2, listModel3);
-			}
-		});
-		
-		// Label Click Listener for Sorting
-		lblDescription.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				lblPriority.setBackground(SystemColor.control);
-				lblDate.setBackground(SystemColor.control);
-				lblStatus.setBackground(SystemColor.control);
-				if (lblDescription.getBackground().getRed() == 132) {
-					lblDescription.setBackground(new Color(251,131,131));
-					lc.setSortMode(3);
-					lc.sort();
-				}
-				else {
-					lblDescription.setBackground(new Color(132,169,255));
-					lc.setSortMode(2);
-					lc.sort();
-				}
-				drawList(lc, listModel, listModel1, listModel2, listModel3);
-			}
-		});
-		
-		// Label Click Listener for Sorting
-		lblDate.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				lblDescription.setBackground(SystemColor.control);
-				lblPriority.setBackground(SystemColor.control);
-				lblStatus.setBackground(SystemColor.control);
-				if (lblDate.getBackground().getRed() == 132) {
-					lblDate.setBackground(new Color(251,131,131));
-					lc.setSortMode(5);
-					lc.sort();
-				}
-				else {
-					lblDate.setBackground(new Color(132,169,255));
-					lc.setSortMode(4);
-					lc.sort();
-				}
-				drawList(lc, listModel, listModel1, listModel2, listModel3);
-			}
-		});
-		// Label Click Listener for Sorting
-		lblStatus.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				lblDescription.setBackground(SystemColor.control);
-				lblPriority.setBackground(SystemColor.control);
-				lblDate.setBackground(SystemColor.control);
-				if (lblStatus.getBackground().getRed() == 132) {
-					lblStatus.setBackground(new Color(251,131,131));
-					lc.setSortMode(7);
-					lc.sort();
-				}
-				else {
-					lblStatus.setBackground(new Color(132,169,255));
-					lc.setSortMode(6);
-					lc.sort();
-				}
-				drawList(lc, listModel, listModel1, listModel2, listModel3);
-			}
-		});	
 
 		
-		
+		frmUnlimitedTodoList.pack();
 	}
 	
 	/**
@@ -532,7 +567,7 @@ public class ToDoList {
 	 * @param lm3, priority list model
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void drawList(ListContainer lc, DefaultListModel lm, DefaultListModel lm1, DefaultListModel lm2, DefaultListModel lm3) {
+	private void drawList(ListContainer lc, DefaultListModel lm, DefaultListModel lm1, DefaultListModel lm2, DefaultListModel lm3) {
 		lm.removeAllElements();
 		lm1.removeAllElements();
 		lm2.removeAllElements();

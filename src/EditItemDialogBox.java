@@ -3,8 +3,8 @@
  * @author Danlin Li
  * @author Robert Oller
  * @date 04/22/2019
- * @brief Defines the Add Item Dialog Box. Used for adding
- * new items to the ListContainer.
+ * @brief Defines the Edit Item Dialog Box. Used for editing
+ * existing items in the ListContainer.
  */
 
 import java.awt.BorderLayout;
@@ -42,20 +42,20 @@ public class EditItemDialogBox extends JDialog {
 		// FORM OPTIONS
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
-		setTitle("Add Item");
+		setTitle("Edit Item");
 		setBounds(100, 100, 300, 221);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		String[][] items = lc.getItems();
+		String[] items = lc.getItem(index);
 		// FORM ELEMENTS
 		textField = new JTextField();
 		textField.setBounds(10, 24, 264, 20);
 		contentPanel.add(textField);
 		textField.setColumns(10);
-		textField.setText(items[0][index]);
+		textField.setText(items[0]);
 		
 		JLabel lblDescription = new JLabel("Description:");
 		lblDescription.setBounds(10, 6, 83, 14);
@@ -70,14 +70,14 @@ public class EditItemDialogBox extends JDialog {
 		textField_2.setText("" + (lc.getSize()+1));
 		textField_2.setColumns(10);
 		textField_2.setBounds(186, 122, 88, 20);
-		textField_2.setText(items[3][index]);
+		textField_2.setText(items[3]);
 		contentPanel.add(textField_2);
 		
 		JLabel lblPriority = new JLabel("Priority");
 		lblPriority.setBounds(186, 104, 83, 14);
 		contentPanel.add(lblPriority);
 		
-		String date = items[1][index];
+		String date = items[1];
 		String[] dateParts = date.split("/");
 		
 		JComboBox comboBox = new JComboBox();
@@ -101,8 +101,8 @@ public class EditItemDialogBox extends JDialog {
 		}
 		JComboBox comboBox_2 = new JComboBox(dateModel);
 		comboBox_2.setBounds(186, 73, 88, 20);
-		for(int i = 0; i < dateModel.getSize();i++) {
-			if (dateModel.getElementAt(i).toString() == dateParts[2]) {
+		for(int i = 0; i < dateModel.getSize(); i++) {
+			if (dateModel.getElementAt(i).toString().contentEquals(dateParts[2])) {
 				comboBox_2.setSelectedIndex(i);
 			}
 		}
@@ -113,17 +113,16 @@ public class EditItemDialogBox extends JDialog {
 		contentPanel.add(lblStatus);
 		
 		JComboBox comboBox_3 = new JComboBox(new DefaultComboBoxModel(new String[] {"Not Started", "In Progress", "Completed"}));
-		if (items[2][index] == "Not Started") {
+		comboBox_3.setBounds(10, 122, 166, 20);
+		if (items[2].contentEquals("Not Started")) {
 			comboBox_3.setSelectedIndex(0);
 		}
-		else if (items[2][index] == "In Progress") {
+		else if (items[2].contentEquals("In Progress")) {
 			comboBox_3.setSelectedIndex(1);
 		}
-		else if (items[2][index] == "Completed") {
+		else if (items[2].contentEquals("Completed")) {
 			comboBox_3.setSelectedIndex(2);
 		}
-		comboBox_3.setBounds(10, 122, 166, 20);
-		
 		contentPanel.add(comboBox_3);
 		{
 			JPanel buttonPane = new JPanel();
@@ -147,15 +146,8 @@ public class EditItemDialogBox extends JDialog {
 							// compile the date string
 							String dateString = "" + (cal.get(Calendar.MONTH)+1) + "/" + comboBox_1.getSelectedItem().toString() + "/" + comboBox_2.getSelectedItem().toString();
 							date = ListItem.sdf.parse(dateString);
-							// check if entered date is before current date 
-							/*SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-							Date d1 = sdf.parse(dateString);
-							Date d2 = sdf.parse(LocalDate.now().getMonthValue() + "/" + LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getYear());
-							if (d1.before(d2)) {
-								throw new IllegalArgumentException("Date cannot be in the past.");
-							}*/
 							
-							// add the item to the list container
+							// edit the item in the list container
 							lc.editItem(textField.getText(), date, comboBox_3.getSelectedItem().toString(), Integer.parseInt(textField_2.getText()), index);
 							setVisible(false);
 							dispose();
