@@ -232,13 +232,13 @@ public class ToDoList {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_2.setBackground(Color.LIGHT_GRAY);
-		panel_2.setBounds(6, 0, 556, 132);
+		panel_2.setBounds(6, 0, 556, 136);
 		panel_1.add(panel_2);
 		panel_2.setLayout(null);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(Color.LIGHT_GRAY);
-		panel_3.setBounds(6, 32, 543, 90);
+		panel_3.setBounds(6, 26, 543, 106);
 		panel_2.add(panel_3);
 		panel_3.setLayout(new GridLayout(0, 2, 6, 6));
 		
@@ -248,23 +248,35 @@ public class ToDoList {
 		JButton btnSave = new JButton("Save");
 		panel_3.add(btnSave);
 		
-		JButton btnRemoveItem = new JButton("Remove Item");
-		panel_3.add(btnRemoveItem);
+		JButton btnEditItem = new JButton("Edit Item");
+		panel_3.add(btnEditItem);
+		
+		//edit item
+		btnEditItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				try {
+				EditItemDialogBox dialog = new EditItemDialogBox(lc, list.getSelectedIndex());
+				dialog.setVisible(true);
+				dialog.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosed(WindowEvent evt) {
+						
+						drawList(lc, listModel, listModel1, listModel2, listModel3);
+					}
+				});
+				}
+				catch (Exception exc) {
+					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: an item must be selected to edit.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		
 		JButton btnLoad = new JButton("Load");
 		panel_3.add(btnLoad);
 		
-		JButton btnEditItem = new JButton("Edit Item");
-		panel_3.add(btnEditItem);
-		
-		JButton btnReport = new JButton("Report");
-		panel_3.add(btnReport);
-		
-		JButton btnReset = new JButton("Reset");
-		panel_3.add(btnReset);
-		
-		JButton btnDisplay = new JButton("Display");
-		panel_3.add(btnDisplay);
+		JButton btnRemoveItem = new JButton("Remove Item");
+		panel_3.add(btnRemoveItem);
 		
 		// ----------------------
 		// DEFINE EVENT LISTENERS
@@ -285,6 +297,15 @@ public class ToDoList {
 				}
 			}
 		});
+		
+		JButton btnReport = new JButton("Report");
+		panel_3.add(btnReport);
+		
+		JButton btnReset = new JButton("Reset");
+		panel_3.add(btnReset);
+		
+		JButton btnDisplay = new JButton("Display");
+		panel_3.add(btnDisplay);
 		
 		// Add Item Button
 		btnAddItem.addActionListener(new ActionListener() {
@@ -323,27 +344,6 @@ public class ToDoList {
 				}
 				catch(Exception exc) {
 					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		
-		//edit item
-		btnEditItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{
-				try {
-				EditItemDialogBox dialog = new EditItemDialogBox(lc, list.getSelectedIndex());
-				dialog.setVisible(true);
-				dialog.addWindowListener(new WindowAdapter() {
-					@Override
-					public void windowClosed(WindowEvent evt) {
-						
-						drawList(lc, listModel, listModel1, listModel2, listModel3);
-					}
-				});
-				}
-				catch (Exception exc) {
-					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: an item must be selected to edit.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
