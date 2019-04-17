@@ -366,6 +366,19 @@ public class ToDoList {
 			}
 		});
 		
+		//Reset List
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				try {
+					lc.reset();
+					drawList(lc, listModel, listModel1, listModel2, listModel3);
+				}
+				catch(Exception exc) {
+					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		});
 		
 		// list and scroll pane listeners
 		list.addListSelectionListener(new ListSelectionListener() {
