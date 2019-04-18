@@ -39,6 +39,7 @@ public class AddItemDialogBox extends JDialog {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public AddItemDialogBox(ListContainer lc) {
+		setAlwaysOnTop(true);
 		// FORM OPTIONS
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
@@ -117,6 +118,9 @@ public class AddItemDialogBox extends JDialog {
 							if (textField.getText().trim().isEmpty()) {
 								throw new IllegalArgumentException("Description cannot be empty.");
 							}
+							if (!isInteger(textField_2.getText())) {
+								throw new IllegalArgumentException("Priority must be an integer value.");
+							}
 							// try to add the item
 							// Convert the date text to number
 							Date date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(comboBox.getSelectedItem().toString());
@@ -186,5 +190,18 @@ public class AddItemDialogBox extends JDialog {
 		for (int i = 0; i < daysInMonth; i++) {
 			cm.addElement(i+1);
 		}
+	}
+	
+	private boolean isInteger(String s) {
+	    try { 
+	        Integer.parseInt(s); 
+	    } 
+	    catch(NumberFormatException e) { 
+	        return false; 
+	    }
+	    catch(NullPointerException e) {
+	        return false;
+	    }
+	    return true;
 	}
 }

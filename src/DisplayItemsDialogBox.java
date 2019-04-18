@@ -7,71 +7,43 @@
  * new items to the ListContainer.
  */
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-
-import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.awt.GridLayout;
 
 @SuppressWarnings("serial")
 public class DisplayItemsDialogBox extends JDialog {
-
-		private final JPanel contentPanel = new JPanel();
 	
 		/**
 		 * Create the dialog.
 		 */
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public DisplayItemsDialogBox(ListContainer lc) {
+			setAlwaysOnTop(true);
 		// FORM OPTIONS
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setTitle("List Display");
 		setBounds(100, 100, 576, 345);
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
 					
-		// attempt to auto-load from file
-		try {
-			lc.loadItems();
-		}
-		catch (Exception e) {
-			// do nothing
-		}
 		String[][] items = lc.getItems();
 		
 		// ------------------------
@@ -96,28 +68,13 @@ public class DisplayItemsDialogBox extends JDialog {
 		for (String current : items[3]) {
 			listModel3.addElement(current);
 		}
-		
-		// ------------------------
-		// CREATE AND PLACE FORM
-		// ELEMENTS
-	
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{570, 0};
-		gridBagLayout.rowHeights = new int[] {450, 140, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		getContentPane().setLayout(gridBagLayout);
+		getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JPanel panel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
 		flowLayout.setVgap(6);
 		flowLayout.setHgap(6);
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 0;
-		getContentPane().add(panel, gbc_panel);
+		getContentPane().add(panel);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(new Dimension(200,300));
@@ -192,14 +149,6 @@ public class DisplayItemsDialogBox extends JDialog {
 		lblPriority.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPriority.setFont(new Font("Tahoma", Font.BOLD, 14));
 		scrollPane_3.setColumnHeaderView(lblPriority);
-		
-		JPanel panel_1 = new JPanel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 1;
-		getContentPane().add(panel_1, gbc_panel_1);
-		panel_1.setLayout(null);
 
 		scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
 			@Override
@@ -245,6 +194,42 @@ public class DisplayItemsDialogBox extends JDialog {
 					scrollPane_2.getVerticalScrollBar().setValue(scrollPane_2.getVerticalScrollBar().getMaximum());
 					scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
 				}
+			}
+		});
+		
+		list.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				list_1.setSelectedIndex(list.getSelectedIndex());
+				list_2.setSelectedIndex(list.getSelectedIndex());
+				list_3.setSelectedIndex(list.getSelectedIndex());
+			}
+		});
+		
+		list_1.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				list.setSelectedIndex(list_1.getSelectedIndex());
+				list_2.setSelectedIndex(list_1.getSelectedIndex());
+				list_3.setSelectedIndex(list_1.getSelectedIndex());
+			}
+		});
+		
+		list_2.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				list_1.setSelectedIndex(list_2.getSelectedIndex());
+				list.setSelectedIndex(list_2.getSelectedIndex());
+				list_3.setSelectedIndex(list_2.getSelectedIndex());
+			}
+		});
+		
+		list_3.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				list_1.setSelectedIndex(list_3.getSelectedIndex());
+				list_2.setSelectedIndex(list_3.getSelectedIndex());
+				list.setSelectedIndex(list_3.getSelectedIndex());
 			}
 		});
 		

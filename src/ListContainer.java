@@ -45,24 +45,21 @@ public class ListContainer {
 		{
 			if(description.equals(item.getDescription()))
 			{
-				throw new IllegalArgumentException("Description msut be unique");
+				throw new IllegalArgumentException("Description must be unique.");
 			}
 		}
 		this.sortPriority(true);
-		if (priority == size+1) {
+		if (priority <= size+1 && priority > 0) {
 			size++;
 			listItems.add(new ListItem(description, date, status, priority));
-		}
-		else if (priority < size && priority > 0) {
-			size++;
-			listItems.add(new ListItem(description, date, status, priority));
-			
-			// Increment all items >= priority by one
-			for (int i = size-1; i >= priority; i--) {
-				ListItem temp = listItems.get(i-1);
-				temp.setPriority(temp.getPriority()+1);
-				listItems.set(i-1, listItems.get(i));
-				listItems.set(i, temp);
+			if (priority != size+1) {
+				// Increment all items >= priority by one
+				for (int i = size-1; i >= priority; i--) {
+					ListItem temp = listItems.get(i-1);
+					temp.setPriority(temp.getPriority()+1);
+					listItems.set(i-1, listItems.get(i));
+					listItems.set(i, temp);
+				}
 			}
 		}
 		else {
@@ -216,14 +213,11 @@ public class ListContainer {
 	
 	/**
 	 * Resets the To-Do List
-	 * @param order
 	 */
 	public void reset()
 	{
-		for(int i = size - 1; i > 0; i--)
-		{
-			listItems.remove(i);
-		}
+		listItems.clear();
+		listItems.trimToSize();
 		size = 0;
 	}
 	
@@ -315,7 +309,22 @@ public class ListContainer {
 	public class DescriptionComparator implements Comparator<ListItem> {
 		@Override
 		public int compare(ListItem l1, ListItem l2) {
-			return l1.getDescription().toLowerCase().compareTo(l2.getDescription().toLowerCase());
+			String firstDesc = l1.getDescription().toLowerCase().replaceAll("\\d", "");
+			String secondDesc = l2.getDescription().toLowerCase().replaceAll("\\d", "");
+			
+			if (firstDesc.equalsIgnoreCase(secondDesc)) {
+				return extractInt(l1.getDescription().toLowerCase()) - extractInt(l2.getDescription().toLowerCase());
+			}
+			return firstDesc.compareTo(secondDesc);
+		}
+		int extractInt(String s) {
+			String num = s.replaceAll("\\D", "");
+			if (num.isEmpty()) {
+				return 0;
+			}
+			else {
+				return Integer.parseInt(num);
+			}
 		}
 		
 	}
