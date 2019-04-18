@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class ListContainer {
@@ -143,12 +144,13 @@ public class ListContainer {
 		FileWriter fw = new FileWriter("To-Do List.txt");
 		PrintWriter writer = new PrintWriter(fw);
 		this.sortPriority(true);
+		writer.println(size * 4);
 		for(int i = 0; i < size; i++) 
 		{
 			ListItem currentItem = listItems.get(i);
-			writer.print(currentItem.getDescription() + "-");
-			writer.print(currentItem.getDateToString() + "-");
-			writer.print(currentItem.getStatus() + "-");
+			writer.println(currentItem.getDescription());
+			writer.println(currentItem.getDateToString());
+			writer.println(currentItem.getStatus());
 			writer.println(Integer.toString(currentItem.getPriority()));
 		}
 		writer.flush();
@@ -158,31 +160,48 @@ public class ListContainer {
 	/**
 	 * Loads the info from To-Do list.txt
 	 * @throws IOException
+	 * @throws ParseException 
 	 */
-	public void loadItems() throws IOException 
+	public void loadItems() throws IOException
 	{
 		this.setSortMode(0);
-		Scanner scanner = new Scanner(new File("To-Do List.txt"));
 		listItems.clear();
 		size = 0;
-		while(scanner.hasNextLine())
+		
+		Scanner lineCount = new Scanner(new File("To-Do List.txt"));
+		int count = 0;
+		while(lineCount.hasNextLine())
 		{
-			String line = scanner.nextLine();
-			String[] parts = line.split("-");
-			if(parts.length == 4)
+			count++;
+			lineCount.nextLine();
+		}
+		lineCount.close();
+		
+		Scanner scanner = new Scanner(new File("To-Do List.txt"));
+		int props = scanner.nextInt();
+		if(count - 1 == props)
+		{
+			scanner.nextLine();
+			for(int i = 0; i < props / 4; i++)
 			{
-				try {
-					addItem(parts[0], ListItem.sdf.parse(parts[1]), parts[2], Integer.valueOf(parts[3]));
+				String description = scanner.nextLine();
+				String date = scanner.nextLine();
+				String status = scanner.nextLine();
+				String priority = scanner.nextLine();
+				try
+				{
+					addItem(description, ListItem.sdf.parse(date), status, Integer.valueOf(priority));
 				}
-				catch (Exception e) {
-					// do nothing
+				catch(Exception e)
+				{
+					//do nothing
 				}
 			}
-			else
-			{
-				scanner.close();
-				throw new IllegalArgumentException("Missing Property in 'To-Do List.txt'");
-			}
+		}
+		else
+		{
+			scanner.close();
+			throw new IllegalArgumentException("Missing Property in 'To-Do List.txt'");
 		}
 		scanner.close();
 	}
