@@ -18,6 +18,7 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
@@ -31,6 +32,8 @@ import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -241,6 +244,21 @@ public class DisplayItemsDialogBox extends JDialog {
 					scrollPane_1.getVerticalScrollBar().setValue(scrollPane_1.getVerticalScrollBar().getMaximum());
 					scrollPane_2.getVerticalScrollBar().setValue(scrollPane_2.getVerticalScrollBar().getMaximum());
 					scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
+				}
+			}
+		});
+		
+		// MouseWheel Listener
+		addMouseWheelListener(new MouseWheelListener() {
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent arg0) {
+				JScrollBar vsb = scrollPane_3.getVerticalScrollBar();
+				int d = arg0.getWheelRotation();
+				if (d > 0) {
+					vsb.setValue(vsb.getValue() + vsb.getBlockIncrement());
+				}
+				else if (d < 0) {
+					vsb.setValue(vsb.getValue() - vsb.getBlockIncrement());
 				}
 			}
 		});
