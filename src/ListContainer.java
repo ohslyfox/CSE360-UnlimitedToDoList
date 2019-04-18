@@ -187,6 +187,19 @@ public class ListContainer {
 		scanner.close();
 	}
 	
+	/**
+	 * Resets the To-Do List
+	 * @param order
+	 */
+	public void reset()
+	{
+		for(int i = size - 1; i > 0; i--)
+		{
+			listItems.remove(i);
+		}
+		size = 0;
+	}
+	
 	private void sortPriority(boolean order) {
 		if (order) {
 			Collections.sort(listItems, new PriorityComparator());
@@ -314,4 +327,3 @@ public class ListContainer {
 		
 	}
 }
-
