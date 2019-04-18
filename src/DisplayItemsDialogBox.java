@@ -29,6 +29,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -57,8 +59,6 @@ public class DisplayItemsDialogBox extends JDialog {
 		setResizable(false);
 		setTitle("List Display");
 		setBounds(100, 100, 576, 345);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 					
@@ -100,7 +100,7 @@ public class DisplayItemsDialogBox extends JDialog {
 	
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{570, 0};
-		gridBagLayout.rowHeights = new int[] {312, 140, 0};
+		gridBagLayout.rowHeights = new int[] {450, 140, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
@@ -198,6 +198,51 @@ public class DisplayItemsDialogBox extends JDialog {
 		getContentPane().add(panel_1, gbc_panel_1);
 		panel_1.setLayout(null);
 
+		scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent arg0) {
+				int y = scrollPane.getVerticalScrollBar().getValue();
+				scrollPane_1.getVerticalScrollBar().setValue(y);
+				scrollPane_2.getVerticalScrollBar().setValue(y);
+				scrollPane_3.getVerticalScrollBar().setValue(y);
+			}
+		});
 		
+		scrollPane_1.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent arg0) {
+				int y = scrollPane_1.getVerticalScrollBar().getValue();
+				scrollPane.getVerticalScrollBar().setValue(y);
+				scrollPane_2.getVerticalScrollBar().setValue(y);
+				scrollPane_3.getVerticalScrollBar().setValue(y);
+			}
+		});
+		
+		scrollPane_2.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent arg0) {
+				int y = scrollPane_2.getVerticalScrollBar().getValue();
+				scrollPane_1.getVerticalScrollBar().setValue(y);
+				scrollPane.getVerticalScrollBar().setValue(y);
+				scrollPane_3.getVerticalScrollBar().setValue(y);
+			}
+		});
+		
+		scrollPane_3.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent arg0) {
+				int y = scrollPane_3.getVerticalScrollBar().getValue();
+				scrollPane_1.getVerticalScrollBar().setValue(y);
+				scrollPane_2.getVerticalScrollBar().setValue(y);
+				scrollPane.getVerticalScrollBar().setValue(y);
+
+				// re adjust scroll panes to their maximum if scrollbar is at maximum
+				if (y >= scrollPane_3.getVerticalScrollBar().getMaximum() - scrollPane_3.getVerticalScrollBar().getVisibleAmount()) {
+					scrollPane_1.getVerticalScrollBar().setValue(scrollPane_1.getVerticalScrollBar().getMaximum());
+					scrollPane_2.getVerticalScrollBar().setValue(scrollPane_2.getVerticalScrollBar().getMaximum());
+					scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
+				}
+			}
+		});
 	}
 }
