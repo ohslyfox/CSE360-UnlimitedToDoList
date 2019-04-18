@@ -251,27 +251,6 @@ public class ToDoList {
 		JButton btnEditItem = new JButton("Edit Item");
 		panel_3.add(btnEditItem);
 		
-		//edit item
-		btnEditItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{
-				try {
-				EditItemDialogBox dialog = new EditItemDialogBox(lc, list.getSelectedIndex());
-				dialog.setVisible(true);
-				dialog.addWindowListener(new WindowAdapter() {
-					@Override
-					public void windowClosed(WindowEvent evt) {
-						
-						drawList(lc, listModel, listModel1, listModel2, listModel3);
-					}
-				});
-				}
-				catch (Exception exc) {
-					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: an item must be selected to edit.", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		
 		JButton btnLoad = new JButton("Load");
 		panel_3.add(btnLoad);
 		
@@ -366,6 +345,27 @@ public class ToDoList {
 			}
 		});
 		
+		//edit item
+		btnEditItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				try {
+				EditItemDialogBox dialog = new EditItemDialogBox(lc, list.getSelectedIndex());
+				dialog.setVisible(true);
+				dialog.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosed(WindowEvent evt) {
+						
+						drawList(lc, listModel, listModel1, listModel2, listModel3);
+					}
+				});
+				}
+				catch (Exception exc) {
+					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: an item must be selected to edit.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
 		//Reset List
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
@@ -378,6 +378,22 @@ public class ToDoList {
 					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
+		});
+		
+		//Display Items
+		btnDisplay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				try {
+					DisplayItemsDialogBox dialog = new DisplayItemsDialogBox(lc);
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			}
 		});
 		
 		// list and scroll pane listeners
