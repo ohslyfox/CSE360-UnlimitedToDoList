@@ -40,6 +40,14 @@ public class ListContainer {
 	 * @param priority, the priority of the item
 	 */
 	public void addItem(String description, Date date, String status, int priority) {
+		description = description.trim();
+		for(ListItem item:listItems)
+		{
+			if(description.equals(item.getDescription()))
+			{
+				throw new IllegalArgumentException("Description msut be unique");
+			}
+		}
 		this.sortPriority(true);
 		if (priority == size+1) {
 			size++;
