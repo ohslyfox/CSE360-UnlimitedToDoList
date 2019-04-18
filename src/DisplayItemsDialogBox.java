@@ -68,6 +68,10 @@ public class DisplayItemsDialogBox extends JDialog {
 		for (String current : items[3]) {
 			listModel3.addElement(current);
 		}
+		
+		// ------------------------
+		// CREATE AND PLACE FORM ELEMENTS
+		
 		getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JPanel panel = new JPanel();

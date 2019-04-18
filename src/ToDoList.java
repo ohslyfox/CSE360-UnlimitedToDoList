@@ -277,7 +277,7 @@ public class ToDoList {
 				try {
 					int selected = list.getSelectedIndex();
 					lc.removeItem(selected);
-					drawList(lc, listModel, listModel1, listModel2, listModel3);
+					drawList(listModel, listModel1, listModel2, listModel3);
 					list.setSelectedIndex(selected);
 				}
 				catch (Exception exc) {
@@ -314,7 +314,7 @@ public class ToDoList {
 								listModel1.addElement(newItem[1]);
 								listModel2.addElement(newItem[2]);
 								listModel3.addElement(newItem[3]);
-								drawList(lc, listModel, listModel1, listModel2, listModel3);
+								drawList(listModel, listModel1, listModel2, listModel3);
 							}
 							// re enable buttons
 							btnAddItem.setEnabled(true);
@@ -356,7 +356,7 @@ public class ToDoList {
 					lblStatus.setBackground(SystemColor.control);
 					lblPriority.setBackground(SystemColor.control);
 					lc.loadItems();
-					drawList(lc, listModel, listModel1, listModel2, listModel3);
+					drawList(listModel, listModel1, listModel2, listModel3);
 				}
 				catch(Exception exc) {
 					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -386,7 +386,7 @@ public class ToDoList {
 					dialog.addWindowListener(new WindowAdapter() {
 						@Override
 						public void windowClosed(WindowEvent evt) {
-							drawList(lc, listModel, listModel1, listModel2, listModel3);
+							drawList(listModel, listModel1, listModel2, listModel3);
 							// re enable buttons
 							btnAddItem.setEnabled(true);
 							btnRemoveItem.setEnabled(true);
@@ -411,7 +411,7 @@ public class ToDoList {
 			{
 				try {
 					lc.reset();
-					drawList(lc, listModel, listModel1, listModel2, listModel3);
+					drawList(listModel, listModel1, listModel2, listModel3);
 				}
 				catch(Exception exc) {
 					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -559,7 +559,7 @@ public class ToDoList {
 					lc.setSortMode(2);
 					lc.sort();
 				}
-				drawList(lc, listModel, listModel1, listModel2, listModel3);
+				drawList(listModel, listModel1, listModel2, listModel3);
 			}
 		});
 		
@@ -579,7 +579,7 @@ public class ToDoList {
 					lc.setSortMode(4);
 					lc.sort();
 				}
-				drawList(lc, listModel, listModel1, listModel2, listModel3);
+				drawList(listModel, listModel1, listModel2, listModel3);
 			}
 		});
 		
@@ -599,7 +599,7 @@ public class ToDoList {
 					lc.setSortMode(6);
 					lc.sort();
 				}
-				drawList(lc, listModel, listModel1, listModel2, listModel3);
+				drawList(listModel, listModel1, listModel2, listModel3);
 			}
 		});	
 		
@@ -621,7 +621,7 @@ public class ToDoList {
 				}
 				
 				
-				drawList(lc, listModel, listModel1, listModel2, listModel3);
+				drawList(listModel, listModel1, listModel2, listModel3);
 			}
 		});	
 		
@@ -665,7 +665,7 @@ public class ToDoList {
 	 * @param lm3, priority list model
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void drawList(ListContainer lc, DefaultListModel lm, DefaultListModel lm1, DefaultListModel lm2, DefaultListModel lm3) {
+	private void drawList(DefaultListModel lm, DefaultListModel lm1, DefaultListModel lm2, DefaultListModel lm3) {
 		lm.removeAllElements();
 		lm1.removeAllElements();
 		lm2.removeAllElements();
