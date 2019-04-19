@@ -31,8 +31,6 @@ import java.util.Locale;
 public class AddItemDialogBox extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_2;
 
 	/**
 	 * Create the dialog.
@@ -51,21 +49,21 @@ public class AddItemDialogBox extends JDialog {
 		contentPanel.setLayout(null);
 		
 		// FORM ELEMENTS
-		textField = new JTextField();
+		JTextField textField = new JTextField();
 		textField.setBounds(10, 24, 264, 20);
 		contentPanel.add(textField);
 		textField.setColumns(10);
 		
-		JLabel lblDescription = new JLabel("Description:");
+		JLabel lblDescription = new JLabel("Description");
 		lblDescription.setBounds(10, 6, 83, 14);
 		contentPanel.add(lblDescription);
 		{
-			JLabel lblDate = new JLabel("Date:");
+			JLabel lblDate = new JLabel("Date");
 			lblDate.setBounds(10, 55, 83, 14);
 			contentPanel.add(lblDate);
 		}
 		
-		textField_2 = new JTextField();
+		JTextField textField_2 = new JTextField();
 		textField_2.setText("" + (lc.getSize()+1));
 		textField_2.setColumns(10);
 		textField_2.setBounds(186, 122, 88, 20);
@@ -91,10 +89,11 @@ public class AddItemDialogBox extends JDialog {
 		contentPanel.add(comboBox_1);
 		// Populate the Year combo box with the current year up to 100 years in the future
 		DefaultComboBoxModel dateModel = new DefaultComboBoxModel();
-		for (int i = LocalDate.now().getYear(); i <= LocalDate.now().getYear()+100; i++) {
+		for (int i = LocalDate.now().getYear()-10; i <= LocalDate.now().getYear()+100; i++) {
 			dateModel.addElement(i);
 		}
 		JComboBox comboBox_2 = new JComboBox(dateModel);
+		comboBox_2.setSelectedIndex(10);
 		comboBox_2.setBounds(186, 73, 88, 20);
 		contentPanel.add(comboBox_2);
 		

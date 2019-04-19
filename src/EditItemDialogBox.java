@@ -31,8 +31,6 @@ import java.util.Locale;
 public class EditItemDialogBox extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_2;
 
 	/**
 	 * Create the dialog.
@@ -51,22 +49,22 @@ public class EditItemDialogBox extends JDialog {
 		
 		String[] items = lc.getItem(index);
 		// FORM ELEMENTS
-		textField = new JTextField();
+		JTextField textField = new JTextField();
 		textField.setBounds(10, 24, 264, 20);
 		contentPanel.add(textField);
 		textField.setColumns(10);
 		textField.setText(items[0]);
 		
-		JLabel lblDescription = new JLabel("Description:");
+		JLabel lblDescription = new JLabel("Description");
 		lblDescription.setBounds(10, 6, 83, 14);
 		contentPanel.add(lblDescription);
 		{
-			JLabel lblDate = new JLabel("Date:");
+			JLabel lblDate = new JLabel("Date");
 			lblDate.setBounds(10, 55, 83, 14);
 			contentPanel.add(lblDate);
 		}
 		
-		textField_2 = new JTextField();
+		JTextField textField_2 = new JTextField();
 		textField_2.setText("" + (lc.getSize()+1));
 		textField_2.setColumns(10);
 		textField_2.setBounds(186, 122, 88, 20);

@@ -80,7 +80,7 @@ public class ToDoList {
 		frmUnlimitedTodoList = new JFrame();
 		frmUnlimitedTodoList.setResizable(false);
 		frmUnlimitedTodoList.setTitle("Unlimited To-Do List");
-		frmUnlimitedTodoList.setBounds(100, 100, 576, 490);
+		frmUnlimitedTodoList.setBounds(100, 100, 576, 510);
 		frmUnlimitedTodoList.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// ------------------------
@@ -125,7 +125,7 @@ public class ToDoList {
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{570, 0};
-		gridBagLayout.rowHeights = new int[] {312, 140, 0};
+		gridBagLayout.rowHeights = new int[] {312, 150, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		frmUnlimitedTodoList.getContentPane().setLayout(gridBagLayout);
@@ -224,21 +224,22 @@ public class ToDoList {
 		panel_1.setLayout(null);
 		
 		JLabel label = new JLabel("Options");
-		label.setBounds(14, 2, 76, 26);
+		label.setForeground(Color.BLACK);
+		label.setBounds(14, 4, 76, 26);
 		label.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_1.add(label);
-		label.setFont(new Font("Tahoma", Font.BOLD, 14));
+		label.setFont(new Font("Tahoma", Font.BOLD, 16));
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_2.setBackground(Color.LIGHT_GRAY);
-		panel_2.setBounds(6, 0, 556, 136);
+		panel_2.setBounds(6, 0, 556, 144);
 		panel_1.add(panel_2);
 		panel_2.setLayout(null);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(Color.LIGHT_GRAY);
-		panel_3.setBounds(6, 26, 543, 106);
+		panel_3.setBounds(6, 30, 543, 81);
 		panel_2.add(panel_3);
 		panel_3.setLayout(new GridLayout(0, 2, 6, 6));
 		
@@ -257,14 +258,68 @@ public class ToDoList {
 		JButton btnRemoveItem = new JButton("Remove Item");
 		panel_3.add(btnRemoveItem);
 		
-		JButton btnReport = new JButton("Report");
-		panel_3.add(btnReport);
-		
 		JButton btnReset = new JButton("Reset");
 		panel_3.add(btnReset);
 		
-		JButton btnDisplay = new JButton("Display");
-		panel_3.add(btnDisplay);
+		JPanel panel_4 = new JPanel();
+		panel_4.setBounds(6, 116, 542, 23);
+		panel_2.add(panel_4);
+		panel_4.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JButton btnReport = new JButton("Report");
+		panel_4.add(btnReport);
+		
+		//Report Dialog Box
+		btnReport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				try {
+					ReportDialogBox dialog = new ReportDialogBox(lc);
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+					
+					// disable buttons
+					btnAddItem.setEnabled(false);
+					btnRemoveItem.setEnabled(false);
+					btnEditItem.setEnabled(false);
+					btnReport.setEnabled(false);
+					btnSave.setEnabled(false);
+					btnLoad.setEnabled(false);
+					btnReset.setEnabled(false);
+					
+					dialog.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent evt) {
+							// re enable buttons
+							btnAddItem.setEnabled(true);
+							btnRemoveItem.setEnabled(true);
+							btnEditItem.setEnabled(true);
+							btnReport.setEnabled(true);
+							btnSave.setEnabled(true);
+							btnLoad.setEnabled(true);
+							btnReset.setEnabled(true);
+						}
+					});
+				}
+				catch(Exception exc) {
+					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
+		//Reset List
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				try {
+					lc.reset();
+					drawList(listModel, listModel1, listModel2, listModel3);
+				}
+				catch(Exception exc) {
+					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		
 		// ----------------------
 		// DEFINE EVENT LISTENERS
@@ -302,7 +357,6 @@ public class ToDoList {
 					btnReport.setEnabled(false);
 					btnSave.setEnabled(false);
 					btnLoad.setEnabled(false);
-					btnDisplay.setEnabled(false);
 					btnReset.setEnabled(false);
 					
 					dialog.addWindowListener(new WindowAdapter() {
@@ -323,7 +377,6 @@ public class ToDoList {
 							btnReport.setEnabled(true);
 							btnSave.setEnabled(true);
 							btnLoad.setEnabled(true);
-							btnDisplay.setEnabled(true);
 							btnReset.setEnabled(true);
 						}
 					});
@@ -380,7 +433,6 @@ public class ToDoList {
 					btnReport.setEnabled(false);
 					btnSave.setEnabled(false);
 					btnLoad.setEnabled(false);
-					btnDisplay.setEnabled(false);
 					btnReset.setEnabled(false);
 					
 					dialog.addWindowListener(new WindowAdapter() {
@@ -394,77 +446,12 @@ public class ToDoList {
 							btnReport.setEnabled(true);
 							btnSave.setEnabled(true);
 							btnLoad.setEnabled(true);
-							btnDisplay.setEnabled(true);
 							btnReset.setEnabled(true);
 						}
 					});
 				}
 				catch (Exception exc) {
 					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: an item must be selected to edit.", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		btnReport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{
-				try {
-					lc.ReportItems();
-				}
-				catch(Exception exc) {
-					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		//Reset List
-		btnReset.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{
-				try {
-					lc.reset();
-					drawList(listModel, listModel1, listModel2, listModel3);
-				}
-				catch(Exception exc) {
-					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-		});
-		
-		//Display Items
-		btnDisplay.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{
-				try {
-					DisplayItemsDialogBox dialog = new DisplayItemsDialogBox(lc);
-					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-					dialog.setVisible(true);
-					// disable buttons
-					btnAddItem.setEnabled(false);
-					btnRemoveItem.setEnabled(false);
-					btnEditItem.setEnabled(false);
-					btnReport.setEnabled(false);
-					btnSave.setEnabled(false);
-					btnLoad.setEnabled(false);
-					btnDisplay.setEnabled(false);
-					btnReset.setEnabled(false);
-					
-					dialog.addWindowListener(new WindowAdapter() {
-						@Override
-						public void windowClosed(WindowEvent evt) {
-							// re enable buttons
-							btnAddItem.setEnabled(true);
-							btnRemoveItem.setEnabled(true);
-							btnEditItem.setEnabled(true);
-							btnReport.setEnabled(true);
-							btnSave.setEnabled(true);
-							btnLoad.setEnabled(true);
-							btnDisplay.setEnabled(true);
-							btnReset.setEnabled(true);
-						}
-					});
-				}
-				catch(Exception e1)
-				{
-					e1.printStackTrace();
 				}
 			}
 		});
