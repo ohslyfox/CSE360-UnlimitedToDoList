@@ -404,7 +404,17 @@ public class ToDoList {
 				}
 			}
 		});
-		
+		btnReport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				try {
+					lc.ReportItems();
+				}
+				catch(Exception exc) {
+					JOptionPane.showMessageDialog(frmUnlimitedTodoList, "Error: " + exc.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		//Reset List
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
