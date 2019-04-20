@@ -87,7 +87,7 @@ public class AddItemDialogBox extends JDialog {
 		comboBox_1.setSelectedIndex(LocalDate.now().getDayOfMonth()-1);
 		comboBox_1.setBounds(112, 73, 64, 20);
 		contentPanel.add(comboBox_1);
-		// Populate the Year combo box with the current year up to 100 years in the future
+		// Populate the Year combo box with the current year-10 up to 100 years in the future
 		DefaultComboBoxModel dateModel = new DefaultComboBoxModel();
 		for (int i = LocalDate.now().getYear()-10; i <= LocalDate.now().getYear()+100; i++) {
 			dateModel.addElement(i);
