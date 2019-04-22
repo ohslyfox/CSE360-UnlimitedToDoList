@@ -85,14 +85,7 @@ public class EditItemDialogBox extends JDialog {
 		comboBox.setBounds(10, 73, 92, 20);
 		contentPanel.add(comboBox);
 		
-		// Populate days combo box with appropriate numbers of
-		// days given the particular year and particular month
-		DefaultComboBoxModel daysModel = new DefaultComboBoxModel();
-		drawDaysComboBox(daysModel, LocalDate.now().getYear(), LocalDate.now().getMonthValue());
-		JComboBox comboBox_1 = new JComboBox(daysModel);
-		comboBox_1.setSelectedIndex(Integer.parseInt(dateParts[1])-1);
-		comboBox_1.setBounds(112, 73, 64, 20);
-		contentPanel.add(comboBox_1);
+		
 		// Populate the Year combo box with the current year-10 up to 100 years in the future
 		DefaultComboBoxModel dateModel = new DefaultComboBoxModel();
 		for (int i = LocalDate.now().getYear()-10; i <= LocalDate.now().getYear()+100; i++) {
@@ -106,6 +99,15 @@ public class EditItemDialogBox extends JDialog {
 			}
 		}
 		contentPanel.add(comboBox_2);
+		
+		// Populate days combo box with appropriate numbers of
+		// days given the particular year and particular month
+		DefaultComboBoxModel daysModel = new DefaultComboBoxModel();
+		drawDaysComboBox(daysModel, Integer.parseInt(dateParts[2]), Integer.parseInt(dateParts[0]));
+		JComboBox comboBox_1 = new JComboBox(daysModel);
+		comboBox_1.setSelectedIndex(Integer.parseInt(dateParts[1])-1);
+		comboBox_1.setBounds(112, 73, 64, 20);
+		contentPanel.add(comboBox_1);
 		
 		JLabel lblStatus = new JLabel("Status");
 		lblStatus.setBounds(10, 104, 83, 14);
