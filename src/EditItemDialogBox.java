@@ -147,7 +147,7 @@ public class EditItemDialogBox extends JDialog {
 							date = ListItem.sdf.parse(dateString);
 							
 							// edit the item in the list container
-							lc.editItem(textField.getText(), date, comboBox_3.getSelectedItem().toString(), Integer.parseInt(textField_2.getText()), index);
+							lc.editItem(textField.getText().trim(), date, comboBox_3.getSelectedItem().toString(), Integer.parseInt(textField_2.getText()), index);
 							setVisible(false);
 							dispose();
 						}

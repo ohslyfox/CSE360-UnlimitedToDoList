@@ -1,6 +1,3 @@
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * @author Patrick Finger
  * @author Danlin Li
@@ -10,6 +7,10 @@ import java.util.Date;
  * of a to-do list item: description, date, status,
  * and priority. Used to store a single to-do list item.
  */
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ListItem {
 	public static SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 	private String description;

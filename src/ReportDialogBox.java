@@ -37,6 +37,7 @@ public class ReportDialogBox extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
+				//set scroll bar to the top of the report pane
 				scrollPane.getVerticalScrollBar().setValue(0);
 			}
 		});
@@ -74,20 +75,16 @@ public class ReportDialogBox extends JFrame {
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
-		// find the longest string for clean spacing
-		int maxLength = 19;
-		/*for (int i = 0; i < lc.getSize(); i++) {
-			if (items[0][i].length() > maxLength) {
-				maxLength = items[0][i].length();
-			}
-		}
-		maxLength += 4;*/
+		// -----------------------
+		// Compile the report text
 		String text = "Unlimited To-Do List Report\n";
 		text += "---------------------------\n";
-		text += "Items: " + lc.getSize() + "\n";
-		text += String.format("%-" + maxLength + "s%-17s%s\n\n", "Not Started: " + countNotStarted, "In Progress: " + countInProgress, "Completed: " + countCompleted);
-		text += String.format("%-" + maxLength + "s%-17s%-17s%s\n", "Description", "Date",  "Status", "Priority");
-		text += String.format("%-" + maxLength + "s%-17s%-17s%s\n", "-----------", "----",  "------", "--------");
+		text += String.format("%-13s%d\n", "Not Started:", countNotStarted);
+		text += String.format("%-13s%d\n", "In Progress:", countInProgress);
+		text += String.format("%-13s%d\n", "Completed:", countCompleted);
+		text += String.format("%-13s%d\n\n", "Total:", lc.getSize());
+		text += String.format("%-21s%-17s%-17s%s\n", "Description", "Date",  "Status", "Priority");
+		text += String.format("%-21s%-17s%-17s%s\n", "-----------", "----",  "------", "--------");
 		// compile the monospaced text, then place into the report text pane
 		for (int i = 0; i < lc.getSize(); i++) {
 			String desc = items[0][i];
@@ -95,7 +92,7 @@ public class ReportDialogBox extends JFrame {
 				text += desc.substring(0, 16) + "\n";
 				desc = desc.substring(16, desc.length());
 			}
-			text += String.format("%-" + maxLength + "s%-17s%-17s%s\n", desc, items[1][i], items[2][i], items[3][i]);
+			text += String.format("%-21s%-17s%-17s%s\n", desc, items[1][i], items[2][i], items[3][i]);
 		};
 		
 		JPanel panel_1 = new JPanel();
@@ -113,7 +110,7 @@ public class ReportDialogBox extends JFrame {
 		JTextPane reportTxtPane = new JTextPane();
 		reportTxtPane.setEditable(false);
 		scrollPane.setViewportView(reportTxtPane);
-		reportTxtPane.setFont(new Font("monospaced", Font.BOLD, 12));
+		reportTxtPane.setFont(new Font("monospaced", Font.BOLD, 14));
 		reportTxtPane.setText(text);
 		
 		
@@ -125,6 +122,7 @@ public class ReportDialogBox extends JFrame {
 		contentPane.add(panel_2, gbc_panel_2);
 		panel_2.setLayout(new GridLayout(0, 2, 6, 0));
 		
+		// Copy button
 		JButton btnNewButton = new JButton("Copy Report to Clipboard");
 		panel_2.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
@@ -135,14 +133,17 @@ public class ReportDialogBox extends JFrame {
 			}
 		});
 		
+		// Print button
 		JButton btnNewButton_1 = new JButton("Print Report");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					reportTxtPane.setFont(new Font("monospaced", Font.BOLD, 12));
 					reportTxtPane.print(null, null, true, null, null, true);
+					reportTxtPane.setFont(new Font("monospaced", Font.BOLD, 14));
 				}
 				catch (Exception e) {
-					
+					// do nothing
 				}
 				
 			}

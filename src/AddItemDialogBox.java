@@ -130,7 +130,7 @@ public class AddItemDialogBox extends JDialog {
 							date = ListItem.sdf.parse(dateString);
 							
 							// add the item to the list container
-							lc.addItem(textField.getText(), date, comboBox_3.getSelectedItem().toString(), Integer.parseInt(textField_2.getText()));
+							lc.addItem(textField.getText().trim(), date, comboBox_3.getSelectedItem().toString(), Integer.parseInt(textField_2.getText()));
 							setVisible(false);
 							dispose();
 						}
