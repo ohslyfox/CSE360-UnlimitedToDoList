@@ -37,6 +37,7 @@ public class EditItemDialogBox extends JDialog {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public EditItemDialogBox(ListContainer lc, int index) {
+		setAlwaysOnTop(true);
 		// FORM OPTIONS
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);

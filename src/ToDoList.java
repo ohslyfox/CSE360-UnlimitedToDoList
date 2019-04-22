@@ -262,7 +262,7 @@ public class ToDoList {
 		panel_3.add(btnReset);
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(6, 116, 542, 23);
+		panel_4.setBounds(6, 116, 542, 22);
 		panel_2.add(panel_4);
 		panel_4.setLayout(new GridLayout(0, 1, 0, 0));
 		

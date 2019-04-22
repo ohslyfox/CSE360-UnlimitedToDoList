@@ -41,13 +41,13 @@ public class ReportDialogBox extends JFrame {
 		setResizable(false);
 		setTitle("List Report");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 562, 412);
+		setBounds(100, 100, 560, 408);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{544, 0};
-		gbl_contentPane.rowHeights = new int[] {130, 241, 0};
+		gbl_contentPane.rowHeights = new int[] {130, 240, 0};
 		gbl_contentPane.columnWeights = new double[]{0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
@@ -71,7 +71,7 @@ public class ReportDialogBox extends JFrame {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
-		panel_2.setBounds(10, 25, 524, 94);
+		panel_2.setBounds(10, 28, 524, 94);
 		panel.add(panel_2);
 		panel_2.setLayout(new GridLayout(0, 1, 0, 0));
 		
