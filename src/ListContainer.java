@@ -195,6 +195,9 @@ public class ListContainer {
 				String priority = scanner.nextLine();
 				try
 				{
+					if (!status.equalsIgnoreCase("Not Started") && !status.equalsIgnoreCase("In Progress") && !status.equalsIgnoreCase("Completed")) {
+						throw new IllegalArgumentException("One or more items in the file contain an illegal status.");
+					}
 					addItem(description, ListItem.sdf.parse(date), status, Integer.valueOf(priority));
 				}
 				catch(Exception e)
