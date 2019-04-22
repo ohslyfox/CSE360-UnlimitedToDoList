@@ -10,75 +10,45 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
-import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-
-import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.border.LineBorder;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 @SuppressWarnings("serial")
 public class ReportDialogBox extends JFrame {
 
 	private JPanel contentPane;
+	private JScrollPane scrollPane;
 	/**
 	 * Create the frame.
 	 */
 	public ReportDialogBox(ListContainer lc) {
-		String[][] items = lc.getItems();
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				scrollPane.getVerticalScrollBar().setValue(0);
+			}
+		});
 		
-		setAlwaysOnTop(true);
+		String[][] items = lc.getItems();
 		setResizable(false);
 		setTitle("List Report");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 560, 408);
+		setBounds(100, 100, 612, 486);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{544, 0};
-		gbl_contentPane.rowHeights = new int[] {130, 240, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
-		
-		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBackground(Color.LIGHT_GRAY);
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 0;
-		contentPane.add(panel, gbc_panel);
-		panel.setLayout(null);
-		
-		JLabel lblReport = new JLabel("Report");
-		lblReport.setForeground(Color.BLACK);
-		lblReport.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblReport.setBounds(10, 4, 80, 23);
-		panel.add(lblReport);
-		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(Color.LIGHT_GRAY);
-		panel_2.setBounds(10, 28, 524, 94);
-		panel.add(panel_2);
-		panel_2.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		JLabel lblItems = new JLabel("List Items: " + lc.getSize());
-		lblItems.setForeground(Color.BLACK);
-		panel_2.add(lblItems);
-		lblItems.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		// count the items then place the count into labels
 		int countNotStarted = 0, countInProgress = 0, countCompleted = 0;
@@ -97,59 +67,66 @@ public class ReportDialogBox extends JFrame {
 					break;
 			}
 		}
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[] {594, 0};
+		gbl_contentPane.rowHeights = new int[] {420, 24, 0};
+		gbl_contentPane.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		contentPane.setLayout(gbl_contentPane);
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBackground(Color.LIGHT_GRAY);
-		panel_2.add(panel_3);
-		panel_3.setLayout(new GridLayout(0, 3, 0, 0));
-		JLabel lblNotStarted = new JLabel("Not Started: " + countNotStarted);
-		lblNotStarted.setForeground(Color.BLACK);
-		panel_3.add(lblNotStarted);
-		lblNotStarted.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
-		JLabel lblInProgress = new JLabel("In Progress: " + countInProgress);
-		lblInProgress.setForeground(Color.BLACK);
-		panel_3.add(lblInProgress);
-		lblInProgress.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
-		JLabel lblCompleted = new JLabel("Completed: " + countCompleted);
-		lblCompleted.setForeground(Color.BLACK);
-		panel_3.add(lblCompleted);
-		lblCompleted.setFont(new Font("Tahoma", Font.BOLD, 14));
+		// find the longest string for clean spacing
+		int maxLength = 19;
+		/*for (int i = 0; i < lc.getSize(); i++) {
+			if (items[0][i].length() > maxLength) {
+				maxLength = items[0][i].length();
+			}
+		}
+		maxLength += 4;*/
+		String text = "Unlimited To-Do List Report\n";
+		text += "---------------------------\n";
+		text += "Items: " + lc.getSize() + "\n";
+		text += String.format("%-" + maxLength + "s%-17s%s\n\n", "Not Started: " + countNotStarted, "In Progress: " + countInProgress, "Completed: " + countCompleted);
+		text += String.format("%-" + maxLength + "s%-17s%-17s%s\n", "Description", "Date",  "Status", "Priority");
+		text += String.format("%-" + maxLength + "s%-17s%-17s%s\n", "-----------", "----",  "------", "--------");
+		// compile the monospaced text, then place into the report text pane
+		for (int i = 0; i < lc.getSize(); i++) {
+			String desc = items[0][i];
+			while (desc.length() >= 17) {
+				text += desc.substring(0, 16) + "\n";
+				desc = desc.substring(16, desc.length());
+			}
+			text += String.format("%-" + maxLength + "s%-17s%-17s%s\n", desc, items[1][i], items[2][i], items[3][i]);
+		};
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setLayout(null);
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 1;
+		gbc_panel_1.gridy = 0;
 		contentPane.add(panel_1, gbc_panel_1);
+		panel_1.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 544, 241);
+		scrollPane = new JScrollPane();
 		panel_1.add(scrollPane);
 		
 		JTextPane reportTxtPane = new JTextPane();
 		reportTxtPane.setEditable(false);
 		scrollPane.setViewportView(reportTxtPane);
-		reportTxtPane.setFont(new Font("monospaced", Font.BOLD, 14));
-		
-		// find the longest string for clean spacing
-		int maxLength = 0;
-		for (int i = 0; i < lc.getSize(); i++) {
-			if (items[0][i].length() > maxLength) {
-				maxLength = items[0][i].length();
-			}
-		}
-		maxLength += 4;
-		String text = "";
-		// compile the monospaced text, then place into the report text pane
-		for (int i = 0; i < lc.getSize(); i++) {
-			text += String.format("%-" + maxLength + "s%-15s%-15s%s\n", items[0][i], items[1][i], items[2][i], items[3][i]);
-		}
+		reportTxtPane.setFont(new Font("monospaced", Font.BOLD, 12));
 		reportTxtPane.setText(text);
 		
-		JButton btnNewButton = new JButton("Copy List to Clipboard");
+		
+		JPanel panel_2 = new JPanel();
+		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+		gbc_panel_2.fill = GridBagConstraints.BOTH;
+		gbc_panel_2.gridx = 0;
+		gbc_panel_2.gridy = 1;
+		contentPane.add(panel_2, gbc_panel_2);
+		panel_2.setLayout(new GridLayout(0, 2, 6, 0));
+		
+		JButton btnNewButton = new JButton("Copy Report to Clipboard");
+		panel_2.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				StringSelection stringSelect = new StringSelection(reportTxtPane.getText());
@@ -157,7 +134,20 @@ public class ReportDialogBox extends JFrame {
 				cp.setContents(stringSelect, null);
 			}
 		});
-		scrollPane.setColumnHeaderView(btnNewButton);;
+		
+		JButton btnNewButton_1 = new JButton("Print Report");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					reportTxtPane.print(null, null, true, null, null, true);
+				}
+				catch (Exception e) {
+					
+				}
+				
+			}
+		});
+		panel_2.add(btnNewButton_1);
 		
 	}
 }
