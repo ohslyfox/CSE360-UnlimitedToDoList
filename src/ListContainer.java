@@ -43,7 +43,7 @@ public class ListContainer {
 		description = description.trim();
 		for(ListItem item:listItems)
 		{
-			if(description.equals(item.getDescription()))
+			if(description.equalsIgnoreCase(item.getDescription()))
 			{
 				throw new IllegalArgumentException("Description must be unique.");
 			}
@@ -69,6 +69,14 @@ public class ListContainer {
 	}
 	
 	public void editItem(String description, Date date, String status, int priority, int index) {
+		description = description.trim();
+		for(ListItem item:listItems)
+		{
+			if(description.equalsIgnoreCase(item.getDescription()))
+			{
+				throw new IllegalArgumentException("Description must be unique.");
+			}
+		}
 		if (index < 0 || index > this.size) {
 			throw new IllegalArgumentException("Index out of bounds.");
 		}
