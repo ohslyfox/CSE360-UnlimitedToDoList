@@ -70,18 +70,21 @@ public class ListContainer {
 	
 	public void editItem(String description, Date date, String status, int priority, int index) {
 		description = description.trim();
-		for(ListItem item:listItems)
-		{
-			if(description.equalsIgnoreCase(item.getDescription()))
-			{
-				throw new IllegalArgumentException("Description must be unique.");
-			}
-		}
+		
 		if (index < 0 || index > this.size) {
 			throw new IllegalArgumentException("Index out of bounds.");
 		}
 		
 		ListItem selectedItem = this.listItems.get(index);
+		
+		for(ListItem item:listItems)
+		{
+			if(description.equalsIgnoreCase(item.getDescription()) && item.getDescription() != selectedItem.getDescription())
+			{
+				throw new IllegalArgumentException("Description must be unique.");
+			}
+		}
+		
 		this.sortPriority(true);
 		if (priority < size+1 && priority > 0) {
 			selectedItem.setDate(date);
