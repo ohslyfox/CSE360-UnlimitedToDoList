@@ -87,13 +87,32 @@ public class ReportDialogBox extends JFrame {
 		text += String.format("%-21s%-17s%-17s%s\n", "-----------", "----",  "------", "--------");
 		// compile the monospaced text, then place into the report text pane
 		for (int i = 0; i < lc.getSize(); i++) {
-			String desc = items[0][i];
-			while (desc.length() >= 17) {
-				text += desc.substring(0, 16) + "\n";
-				desc = desc.substring(16, desc.length());
+			String[] words = items[0][i].split("\\s+");
+			String rolling = "";
+			for (int j = 0; j < words.length; j++) {
+				String current = words[j];
+				if (current.length() >= 17) {
+					while (current.length() >= 17) {
+						int howFar = rolling.length()-1;
+						rolling += current.substring(0, 16-howFar);
+						current = current.substring(16-howFar, current.length());
+						if (rolling.length() + current.length() >= 17) {
+							text += rolling + "\n";
+							rolling = "";
+						}
+					}
+				}
+				if (current.length() + rolling.length() >= 17) {
+					text += rolling.substring(0, rolling.length()-1) + "\n";
+					rolling = current + " ";
+				}
+				else if (!current.isEmpty()) {
+					rolling += current + " ";
+				}
 			}
-			text += String.format("%-21s%-17s%-17s%s\n", desc, items[1][i], items[2][i], items[3][i]);
+			text += String.format("%-21s%-17s%-17s%s\n\n", rolling, items[1][i], items[2][i], items[3][i]);
 		};
+		text.trim();
 		
 		JPanel panel_1 = new JPanel();
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
