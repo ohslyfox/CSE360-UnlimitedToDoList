@@ -89,8 +89,7 @@ public class ReportDialogBox extends JFrame {
 		for (int i = 0; i < lc.getSize(); i++) {
 			String[] words = items[0][i].split("\\s+");
 			String rolling = "";
-			for (int j = 0; j < words.length; j++) {
-				String current = words[j];
+			for (String current : words) {
 				if (current.length() >= 17) {
 					while (current.length() >= 17) {
 						int howFar = rolling.length()-1;
