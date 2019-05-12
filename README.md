@@ -6,7 +6,9 @@
 * CSE360 Semester Project
 * Spring 2019
 
-For a complete guide with examples, check out the User Manual included in this repository.
+An executable jar file for this project can be found [here.](https://patricksfinger.com/projects/downloads/UnlimitedToDoList_PatrickFinger_DanlinLi_RobertOller.jar)
+
+For a complete guide with examples, check out the [User Manual](https://github.com/ohslyfox/CSE360-UnlimitedToDoList/blob/master/UserManual.pdf) included in this repository.
 
 # Overview 
 The purpose of this program is for the user to have a simple way to prioritize items (tasks) in a To-Do list. Each item has a description, date, status, and priority. The user has the option to add, remove, or edit items. When the user wants to save or load a To-Do list, they have the option to do so as well, or the list will be saved automatically when exiting the application.
