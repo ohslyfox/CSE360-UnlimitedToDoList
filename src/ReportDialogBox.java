@@ -90,18 +90,16 @@ public class ReportDialogBox extends JFrame {
 			String[] words = items[0][i].split("\\s+");
 			String rolling = "";
 			for (String current : words) {
-				if (current.length() >= 17) {
-					while (current.length() >= 17) {
-						int howFar = rolling.length()-1;
-						rolling += current.substring(0, 16-howFar);
-						current = current.substring(16-howFar, current.length());
-						if (rolling.length() + current.length() >= 17) {
-							text += rolling + "\n";
-							rolling = "";
-						}
+				while (current.length() >= 17) {
+					int howFar = rolling.length()-1;
+					rolling += current.substring(0, 16-howFar);
+					current = current.substring(16-howFar, current.length());
+					if (rolling.length() + current.length() >= 17 && !current.isEmpty()) {
+						text += rolling + "\n";
+						rolling = "";
 					}
 				}
-				if (current.length() + rolling.length() >= 17) {
+				if (current.length() + rolling.length() >= 17 && !current.isEmpty()) {
 					text += rolling.substring(0, rolling.length()-1) + "\n";
 					rolling = current + " ";
 				}
