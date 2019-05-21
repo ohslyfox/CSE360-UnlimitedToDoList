@@ -100,7 +100,7 @@ public class ReportDialogBox extends JFrame {
 					}
 				}
 				if (current.length() + rolling.length() >= 17 && !current.isEmpty()) {
-					text += rolling.substring(0, rolling.length()-1) + "\n";
+					text += rolling.substring(0, rolling.length()) + "\n";
 					rolling = current + " ";
 				}
 				else if (!current.isEmpty()) {
