@@ -52,7 +52,7 @@ public class ListContainer {
 		if (priority <= size+1 && priority > 0) {
 			size++;
 			listItems.add(new ListItem(description, date, status, priority));
-			if (priority != size+1) {
+			if (priority != size) {
 				// Increment all items >= priority by one
 				for (int i = size-1; i >= priority; i--) {
 					ListItem temp = listItems.get(i-1);
